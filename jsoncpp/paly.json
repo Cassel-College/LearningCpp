@@ -1,0 +1,19 @@
+{"retCode":"0000","retMsg":"成功",
+  "keyCurVerList":
+  [{
+    "issueChannelCode":"01","keyId":"01","keyBathNumber":"2","needUpdateYN":"Y",
+    "keyList":
+    [
+    {"keyBathNumber":"2","keyIdx":"01","keyValue":"1111111111","keyEffectiveDate":"20271101"},
+    {"keyBathNumber":"2","keyIdx":"02","keyValue":"2222222222","keyEffectiveDate":"20271101"},
+    {"keyBathNumber":"2","keyIdx":"03","keyValue":"3333333333","keyEffectiveDate":"20271101"},
+    {"keyBathNumber":"2","keyIdx":"04","keyValue":"4444444444","keyEffectiveDate":"20271101"},
+    {"keyBathNumber":"2","keyIdx":"05","keyValue":"5555555555","keyEffectiveDate":"20271101"},
+    {"keyBathNumber":"2","keyIdx":"06","keyValue":"6666666666","keyEffectiveDate":"20271101"},
+    {"keyBathNumber":"2","keyIdx":"07","keyValue":"7777777777","keyEffectiveDate":"20271101"},
+    {"keyBathNumber":"2","keyIdx":"08","keyValue":"8888888888","keyEffectiveDate":"20271101"},
+    {"keyBathNumber":"2","keyIdx":"09","keyValue":"9999999999","keyEffectiveDate":"20271101"},
+    {"keyBathNumber":"2","keyIdx":"0A","keyValue":"AAAAAAAAAA","keyEffectiveDate":"20271101"}
+    ]
+  }]
+}
