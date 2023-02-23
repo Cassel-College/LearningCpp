@@ -28,6 +28,35 @@ void show(std::shared_ptr<std::vector<std::shared_ptr<Student>>> students_ptr) {
     }
 }
 
+void demo(std::shared_ptr<std::vector<std::shared_ptr<Student>>> students_ptr) {
+
+    std::string func_name = "demo";
+    std::cout << "--------------------------" << func_name << "--------------------------" << std::endl;
+    for (auto s : *students_ptr) {
+        // cout << s->id << " " << s->name << endl;
+        std::cout << "... " << (*s).id << std::endl;
+    }
+    std::cout << "--------------------------over--------------------------" << std::endl;
+}
+
+void test_const_core(Student *const student) {
+    std::string func_name = "test_const_core";
+    std::cout << "--------------------------" << func_name << "--------------------------" << std::endl;
+    std::cout << "... " << student->id << std::endl;
+    std::cout << "--------------------------over--------------------------" << std::endl;
+}
+
+void test_const(std::shared_ptr<std::vector<std::shared_ptr<Student>>> students_ptr) {
+    std::string func_name = "test_const";
+    std::cout << "--------------------------" << func_name << "--------------------------" << std::endl;
+    for (auto s : *students_ptr) {
+        test_const_core(s.get());
+        std::cout << "... " << s->id << std::endl;
+        break;
+    }
+    std::cout << "--------------------------over--------------------------" << std::endl;
+}
+
 int main() {
     
     std::shared_ptr<std::vector<std::shared_ptr<Student>>> students_ptr = 
@@ -39,27 +68,11 @@ int main() {
     students_ptr->push_back(make_shared<Student>(4, "David"));
 
     show(students_ptr);
+    test_const(students_ptr);
+    demo(students_ptr);
     paly(students_ptr);
     show(students_ptr);
-    return 0;
-}
 
-int main1() {
-    // 创建一个vector<shared_ptr<Student>>
-    std::vector<std::shared_ptr<Student>> students;
-
-    // 使用构造函数初始化shared_ptr对象，并添加到vector中
-    students.push_back(shared_ptr<Student>(new Student(1, "Alice")));
-    students.push_back(shared_ptr<Student>(new Student(2, "Bob")));
-
-    // 使用make_shared函数初始化shared_ptr对象，并添加到vector中
-    students.push_back(make_shared<Student>(3, "Charlie"));
-    students.push_back(make_shared<Student>(4, "David"));
-
-    // 遍历vector并打印每个学生的信息
-    for (auto& s : students) {
-        cout << s->id << " " << s->name << endl;
-    }
-
+    demo(students_ptr);
     return 0;
 }
