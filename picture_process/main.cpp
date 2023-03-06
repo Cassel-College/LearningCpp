@@ -89,6 +89,9 @@ void init() {
 const char * read_bmp_1 = "/home/Code/github/LearningCpp/picture_process/bitmaps/image1.bmp";
 const char * write_bmp_red = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageR.bmp";
 const char * write_bmp_gray = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageGery.bmp";
+const char * write_bmp_gray_red = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageGeryRed.bmp";
+const char * write_bmp_gray_blue = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageGeryBlue.bmp";
+const char * write_bmp_gray_green = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageGeryGreen.bmp";
 const char * write_bmp_green = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageG.bmp";
 const char * write_bmp_blue = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageB.bmp";
 const char * write_bmp_alter = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageGeryAlter.bmp";
@@ -250,6 +253,9 @@ void ExecTask001() {
     reverse8(write_bmp_gray, write_bmp_alter);
     ShowUserInformation(read_config_file(get_path("inner_line")));
     split24(read_bmp_1, write_bmp_red, write_bmp_green, write_bmp_blue);
+    change24to8(write_bmp_red, write_bmp_gray_red);
+    change24to8(write_bmp_green, write_bmp_gray_green);
+    change24to8(write_bmp_blue, write_bmp_gray_blue);
 }
 
 int main()
