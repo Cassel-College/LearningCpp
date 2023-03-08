@@ -7,7 +7,7 @@
 #include <string>
 #include <map>
 #include <algorithm>
-#include "1/pub.h"
+#include "pub.h"
 #include "1/splitBmp.h"
 #include "1/histogramEqualize.h"
 #include "1/spatialFilter.h"
@@ -17,7 +17,7 @@
 #include "1/edgeDetection.h"
 #include "1/HoughTransform.h"
 #include "1/outlineExtraction.h"
-#include "1/read_write_bmp.h"
+#include "read_write_bmp.h"
 #include "splitBmp.h"
 #include <cstring>
 
@@ -95,6 +95,7 @@ const char * write_bmp_gray_green = "/home/Code/github/LearningCpp/picture_proce
 const char * write_bmp_green = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageG.bmp";
 const char * write_bmp_blue = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageB.bmp";
 const char * write_bmp_alter = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageGeryAlter.bmp";
+const char * read_bmp_1_ggggggggg = "/home/Code/github/LearningCpp/picture_process/bitmaps/imagegggggg.bmp";
 
 Bmp in_bmp, out_bmp;
 BmpOperation bmpOperation;
@@ -112,8 +113,11 @@ threshold thres;
 Bmp init_colortable(Bmp bmp)
 {
 	int i;
+    // 创建调色板
 	bmp.pColorTable = (RGBQUAD*)malloc(256 * sizeof(RGBQUAD));
+    // 置于0
 	memset(bmp.pColorTable, 0, 256 * sizeof(RGBQUAD));
+    // 填充调色板
 	for (i = 0; i < 256; i++)
 	{
 		bmp.pColorTable[i].rgbBlue = i;
@@ -150,14 +154,51 @@ void split24(const char *read_bmp, const char *write_bmp_red, const char *write_
 void change24to8(const char *read_bmp, const char *write_bmp)
 {
     cout << "开始读取24位图 ..." << endl;
+    // 读取图片
 	in_bmp = bmpOperation.readBmp(read_bmp);
 	out_bmp = in_bmp;
+
 	out_bmp.biBitCount = 8;
+
+    // bmpWidth是位图的宽度，也就是每行有多少个像素块
+    // 8：8位图像
+    // 8：位数÷8即为每个像元占用字节数，bmpwidth*位数/8为有效字节数，在此基础上填充0
+    // 3: 补齐 存储图像数据每行字节数为4的倍数，所以+3是怕出现不满足4的倍数这种情况
+    // 4: BMP图片扫描引擎的最小单位是4字节，遵循4的整倍数
+    // 目的： 用来计算8位图每行占多少个字节
 	out_bmp.lineByte = (out_bmp.width * 8 / 8 + 3) / 4 * 4;
+
 	out_bmp = init_colortable(out_bmp);
+
 	out_bmp.pBmpBuf = splitBmp.init_gray(in_bmp.pBmpBuf, in_bmp.height, in_bmp.width, out_bmp.lineByte, in_bmp.lineByte);
+    // 
 	bmpOperation.writeBmp(out_bmp, write_bmp);
 	cout << "成功转为8位灰度图" << endl;
+}
+
+void change24to24_gray(const char *read_bmp, const char *write_bmp)
+{
+    cout << "开始读取24位图 ..." << endl;
+    // 读取图片
+	in_bmp = bmpOperation.readBmp(read_bmp);
+	out_bmp = in_bmp;
+
+	out_bmp.biBitCount = 24;
+
+    // // bmpWidth是位图的宽度，也就是每行有多少个像素块
+    // // 8：8位图像
+    // // 8：位数÷8即为每个像元占用字节数，bmpwidth*位数/8为有效字节数，在此基础上填充0
+    // // 3: 补齐 存储图像数据每行字节数为4的倍数，所以+3是怕出现不满足4的倍数这种情况
+    // // 4: BMP图片扫描引擎的最小单位是4字节，遵循4的整倍数
+    // // 目的： 用来计算8位图每行占多少个字节
+	// out_bmp.lineByte = (out_bmp.width * 8 / 8 + 3) / 4 * 4;
+
+	out_bmp = init_colortable(out_bmp);
+
+	out_bmp.pBmpBuf = splitBmp.init_gray_24_to_24(in_bmp.pBmpBuf, in_bmp.height, in_bmp.width, out_bmp.lineByte, in_bmp.lineByte);
+    // 
+	bmpOperation.writeBmp(out_bmp, write_bmp);
+	cout << "成功转为24位灰度图" << endl;
 }
 
 //8位图反色
@@ -171,49 +212,6 @@ void reverse8(const char *read_bmp, const char *write_bmp)
 	bmpOperation.writeBmp(out_bmp, write_bmp);
 	cout << "成功反色8位灰度图" << endl;
 }
-
-//直方图均衡化
-void equalize(const char *read_bmp, const char *write_bmp_equalize, const char *write_bmp_histoequalize)
-{
-	in_bmp = bmpOperation.readBmp(read_bmp);
-	out_bmp = in_bmp;
-	out_bmp.pBmpBuf = histogram.equalization(in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte);
-	out_bmp = init_colortable(out_bmp);
-	bmpOperation.writeBmp(out_bmp, write_bmp_equalize);
-	cout << "均衡化成功！" << endl;
-	in_bmp = bmpOperation.readBmp(write_bmp_equalize);
-	out_bmp = in_bmp;
-	out_bmp.pBmpBuf = histogram.saveHistogram(in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte);
-	out_bmp = init_colortable(out_bmp);
-	out_bmp.height = 1000;
-	out_bmp.width = 512;
-	bmpOperation.writeBmp(out_bmp, write_bmp_histoequalize);
-	cout << "生成均衡化后的直方图" << endl;
-}
-
-//绘制直方图
-void paintHistogram(const char *read_bmp, const char *write_bmp_histogram)
-{
-	in_bmp = bmpOperation.readBmp(read_bmp);
-	out_bmp = in_bmp;
-	out_bmp.pBmpBuf = histogram.saveHistogram(in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte);
-	out_bmp = init_colortable(out_bmp);
-	out_bmp.height = 1000;
-	out_bmp.width = 512;
-	bmpOperation.writeBmp(out_bmp, write_bmp_histogram);
-	cout << "生成直方图" << write_bmp_histogram << endl;
-}
-
-//LOG
-void LOG(const char *read_bmp, const char *write_bmp)
-{
-	in_bmp = bmpOperation.readBmp(read_bmp);
-	out_bmp = in_bmp;
-	out_bmp.pBmpBuf = edge.LOG(in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte);
-	bmpOperation.writeBmp(out_bmp, write_bmp); 
-	cout << "边缘检测LOG 完成" << endl;
-}
-
 
 std::string get_task_name(const std::string &input_id) {
     std::string task_name  = "";
@@ -248,11 +246,20 @@ void ShowTaskInfo(const std::string &func_id) {
 }
 
 void ExecTask001() {
+
+    // 24位彩色图像转换为8位灰度图
     change24to8(read_bmp_1, write_bmp_gray);
+    // change24to24_gray(read_bmp_1, read_bmp_1_ggggggggg);
+    // 终端注释
     ShowUserInformation(read_config_file(get_path("inner_line")));
     reverse8(write_bmp_gray, write_bmp_alter);
+    // 终端注释
     ShowUserInformation(read_config_file(get_path("inner_line")));
+    // 分解 read_bmp_1 按不同的RGB 到 write_bmp_red, write_bmp_green, write_bmp_blue
     split24(read_bmp_1, write_bmp_red, write_bmp_green, write_bmp_blue);
+    // split24(read_bmp_1_ggggggggg, write_bmp_red, write_bmp_green, write_bmp_blue);
+    
+    // 24位彩色图像转换为8位灰度图
     change24to8(write_bmp_red, write_bmp_gray_red);
     change24to8(write_bmp_green, write_bmp_gray_green);
     change24to8(write_bmp_blue, write_bmp_gray_blue);

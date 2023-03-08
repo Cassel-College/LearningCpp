@@ -6,7 +6,7 @@
 #include <math.h>
 #include <vector>
 #include <stack>
-#include "pub.h"
+#include "../pub.h"
 
 using namespace std;
 

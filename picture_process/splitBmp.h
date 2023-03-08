@@ -20,6 +20,8 @@ public:
 
 	unsigned char * init_gray(unsigned char * bmp, int height, int width, int linebyte, int lineByte2);
 
+	unsigned char * init_gray_24_to_24(unsigned char * bmp, int height, int width, int linebyte, int lineByte2);
+
 	unsigned char * init_opposite_gray(unsigned char * bmp, int height, int width, int linebyte);
 };
 
