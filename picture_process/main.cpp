@@ -8,15 +8,6 @@
 #include <map>
 #include <algorithm>
 #include "pub.h"
-#include "1/splitBmp.h"
-#include "1/histogramEqualize.h"
-#include "1/spatialFilter.h"
-#include "1/basicOperation.h"
-#include "1/threshold.h"
-#include "1/regionGrowing.h"
-#include "1/edgeDetection.h"
-#include "1/HoughTransform.h"
-#include "1/outlineExtraction.h"
 #include "read_write_bmp.h"
 #include "splitBmp.h"
 #include <cstring>
@@ -100,14 +91,6 @@ const char * read_bmp_1_ggggggggg = "/home/Code/github/LearningCpp/picture_proce
 Bmp in_bmp, out_bmp;
 BmpOperation bmpOperation;
 SplitBmp splitBmp;
-basicOperation basic;
-edgeDetection edge;
-HistogramEqualize histogram;
-HoughTransform hough;
-outlineExtraction outline;
-regionGrowing region;
-spatialFiltering spatial;
-threshold thres;
 
 
 Bmp init_colortable(Bmp bmp)
@@ -175,6 +158,50 @@ void change24to8(const char *read_bmp, const char *write_bmp)
 	bmpOperation.writeBmp(out_bmp, write_bmp);
 	cout << "成功转为8位灰度图" << endl;
 }
+
+
+
+//将24位图变成灰度图
+void change24to8_to_b(const char *read_bmp, const char *write_bmp)
+{
+    cout << "开始读取24位图 ..." << endl;
+    // 读取图片
+	in_bmp = bmpOperation.readBmp(read_bmp);
+	out_bmp = in_bmp;
+	out_bmp.biBitCount = 8;
+	out_bmp.lineByte = (out_bmp.width * 8 / 8 + 3) / 4 * 4;
+	out_bmp = init_colortable(out_bmp);
+	out_bmp.pBmpBuf = splitBmp.get_bgr_of_b(in_bmp.pBmpBuf, in_bmp.height, in_bmp.width, out_bmp.lineByte, in_bmp.lineByte);
+	bmpOperation.writeBmp(out_bmp, write_bmp);
+	cout << "成功转为8位灰度图-B" << endl;
+}
+void change24to8_to_g(const char *read_bmp, const char *write_bmp)
+{
+    cout << "开始读取24位图 ..." << endl;
+    // 读取图片
+	in_bmp = bmpOperation.readBmp(read_bmp);
+	out_bmp = in_bmp;
+	out_bmp.biBitCount = 8;
+	out_bmp.lineByte = (out_bmp.width * 8 / 8 + 3) / 4 * 4;
+	out_bmp = init_colortable(out_bmp);
+	out_bmp.pBmpBuf = splitBmp.get_bgr_of_g(in_bmp.pBmpBuf, in_bmp.height, in_bmp.width, out_bmp.lineByte, in_bmp.lineByte);
+	bmpOperation.writeBmp(out_bmp, write_bmp);
+	cout << "成功转为8位灰度图-B" << endl;
+}
+void change24to8_to_r(const char *read_bmp, const char *write_bmp)
+{
+    cout << "开始读取24位图 ..." << endl;
+    // 读取图片
+	in_bmp = bmpOperation.readBmp(read_bmp);
+	out_bmp = in_bmp;
+	out_bmp.biBitCount = 8;
+	out_bmp.lineByte = (out_bmp.width * 8 / 8 + 3) / 4 * 4;
+	out_bmp = init_colortable(out_bmp);
+	out_bmp.pBmpBuf = splitBmp.get_bgr_of_r(in_bmp.pBmpBuf, in_bmp.height, in_bmp.width, out_bmp.lineByte, in_bmp.lineByte);
+	bmpOperation.writeBmp(out_bmp, write_bmp);
+	cout << "成功转为8位灰度图-B" << endl;
+}
+
 
 void change24to24_gray(const char *read_bmp, const char *write_bmp)
 {
@@ -260,9 +287,13 @@ void ExecTask001() {
     // split24(read_bmp_1_ggggggggg, write_bmp_red, write_bmp_green, write_bmp_blue);
     
     // 24位彩色图像转换为8位灰度图
-    change24to8(write_bmp_red, write_bmp_gray_red);
-    change24to8(write_bmp_green, write_bmp_gray_green);
-    change24to8(write_bmp_blue, write_bmp_gray_blue);
+    // change24to8(write_bmp_red, write_bmp_gray_red);
+    // change24to8(write_bmp_green, write_bmp_gray_green);
+    // change24to8(write_bmp_blue, write_bmp_gray_blue);
+
+    change24to8_to_b(read_bmp_1, write_bmp_gray_blue);
+    change24to8_to_g(read_bmp_1, write_bmp_gray_green);
+    change24to8_to_r(read_bmp_1, write_bmp_gray_red);
 }
 
 int main()
