@@ -3,6 +3,7 @@
 #include <iostream>
 #include "stdlib.h"
 #include "stdio.h"
+#include "pub.h"
 
 using namespace std;
 
@@ -15,6 +16,8 @@ typedef struct rgb {
 class SplitBmp {
 public:
 	int i, j;
+
+	void rgb24_to_grey8(char* image_path, unsigned char * rawImageData);
 
 	rgb init_rgb_old(unsigned char * bmp, int height, int width, int linebyte);
 	
