@@ -98,8 +98,8 @@ unsigned char * HistogramEqualize::saveHistogram512(unsigned char * bmp, int wid
 		std::cout << "概率：" << double((double)grayPoint[i / 2] / (double)(width * height)) * 100 << "%" << std::endl;
 		// std::cout << "灰度值：" << grayPoint[i / 2] << std::endl;
 		for (j = 0; j < 512; j++) {
+			// 60 等比例拉长图片
 			if (j <= p * 60) {
-			// if (!grayPoint[i / 2]--) {
 				pBmpBuf[j*lineByte + i] = 0;
 				pBmpBuf[j*lineByte + i + 1] = 0;
 			} else {

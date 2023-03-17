@@ -5,7 +5,7 @@
 #include "stdio.h"
 #include <math.h>
 #include "threshold.h"
-#include "spatialFilter.h"
+// #include "spatialFilter.h"
 
 class HistogramEqualize {
 public:

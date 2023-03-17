@@ -59,22 +59,35 @@ unsigned char * basicOperation::bmpMove(unsigned char * bmp, int width, int heig
     matrix[2][2] = 1;
     matrix[0][2] = x;
     matrix[1][2] = y;
+    // 1 0 100
+    // 0 1 100
+    // 0 0 1
     int matrixX, matrixY;
     int k[3];
 
     for (i = 0; i < width; i++) {
         for (j = 0; j < height; j++) {
             int m[3] = { 0 };
-            k[0] = i;
-            k[1] = j;
-            k[2] = 1;
-            for (matrixX = 0; matrixX < 3; matrixX++) {
-                for (matrixY = 0; matrixY < 3; matrixY++) {
-                    m[matrixX] = m[matrixX] + matrix[matrixX][matrixY] * k[matrixY];
-                }
-            }
-            if (m[0] >= 0 && m[0] < height && m[1] >= 0 && m[1] < width) {
-                pBmpBuf[m[1] * linebyte + m[0]] = bmp[j*linebyte + i];
+            // std::cout << "--" << std::endl;
+            // k[0] = i;
+            // k[1] = j;
+            // k[2] = 1;
+            // for (matrixX = 0; matrixX < 3; matrixX++) {
+            //     for (matrixY = 0; matrixY < 3; matrixY++) {
+            //         m[matrixX] = m[matrixX] + matrix[matrixX][matrixY] * k[matrixY];
+            //     }
+            // }
+            // [0, 0] => [100, 100]
+            // [1, 0] => [101, 100]
+            // j : m[1] => j + 100 = m[1]
+            // i : m[0] => i + 100 = m[0]
+            // if (m[0] >= 0 && m[0] < height && m[1] >= 0 && m[1] < width) {
+            //     pBmpBuf[m[1] * linebyte + m[0]] = bmp[j*linebyte + i];
+            //     // pBmpBuf[(j + x) * linebyte + y] = bmp[j*linebyte + i];
+            // }
+            if ((j + x) >= 0 && (j + x) < height && (i + y) >= 0 && (i + y) < width) {
+                // pBmpBuf[m[1] * linebyte + m[0]] = bmp[j*linebyte + i];
+                pBmpBuf[(j + x) * linebyte + (i + y)] = bmp[j*linebyte + i];
             }
         }
     }
