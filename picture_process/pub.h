@@ -36,12 +36,20 @@ typedef struct tagPOINT {
 // //
 // //}BITMAPINFOHEADER; /* 位图信息头结构 */
 
-typedef struct {
+typedef struct tagRGBQUAD{
     char rgbBlue;
     char rgbGreen;
     char rgbRed;
     char rgbReserved;
 }RGBQUAD;
+
+// typedef struct tagBITMAPFILEHEADER{
+//     WORD bfType;         // 文件类型
+//     DWORD bfSize;           // 文件大小
+//     WORD bfReserved1;    // 保留字
+//     WORD bfReserved2;    // 保留字
+//     DWORD bfOffBits;        // 文件头到位图的实际偏移 
+// } BMFH; 
 
 // typedef struct tagBITMAPINFOHEADER{
 //     DWORD      biSize;           //结构体的大小（包括颜色表）
@@ -75,7 +83,7 @@ typedef struct tagBITMAPFILEHEADER {
     WORD   bfReserved1;      /* set to 0 */
     WORD   bfReserved2;      /* set to 0 */
     DWORD  bfOffBits;        /* Byte offset to actual bitmap data (= 54 if RGB) */
-}__attribute__((packed)) BITMAPFILEHEADER;
+}__attribute__((packed)) BITMAPFILEHEADER, BMFH;
 
 typedef struct tagBITMAPINFOHEADER {
     DWORD  biSize;           /* Size of BITMAPINFOHEADER, in bytes (= 40) */
@@ -91,8 +99,46 @@ typedef struct tagBITMAPINFOHEADER {
                                 maximum allowed by biBitCount) */
     DWORD  biClrImportant;   /* Number of important colors.  If 0, all colors
                                 are important */
-}__attribute__((packed)) BITMAPINFOHEADER;
+}__attribute__((packed)) BITMAPINFOHEADER, BMIH;
 
+
+
+// typedef unsigned char BYTE;
+// typedef unsigned short WORD;
+// typedef unsigned int DWORD;
+// typedef unsigned long LONG;
+
+
+
+// typedef struct tagBITMAPFILEHEADER{
+//     WORD bfType;         // 文件类型
+//     DWORD bfSize;           // 文件大小
+//     WORD bfReserved1;    // 保留字
+//     WORD bfReserved2;    // 保留字
+//     DWORD bfOffBits;        // 文件头到位图的实际偏移 
+// } BMFH; 
+
+
+// typedef struct tagBITMAPINFOHEADER{
+//     DWORD biSize;     //该结构的长度，为40
+//     LONG  biWidth;    //图像宽度
+//     LONG  biHeight;   //图像高度
+//     WORD  biPlanes;   //位平面数，必须为1
+//     WORD  biBitCount; //颜色位数，
+//     DWORD biCompression; //是否压缩
+//     DWORD biSizeImage; //实际位图数据占用的字节数
+//     LONG  biXPelsPerMeter; //目标设备水平分辨率
+//     LONG  biYPelsPerMeter; //目标设备垂直分辨率
+//     DWORD biClrUsed; //实际使用的颜色数
+//     DWORD biClrImportant; //图像中重要的颜色数
+// } BMIH;
+
+// typedef struct tagRGBQUAD {
+//     BYTE   rgbBlue;
+//     BYTE   rgbGreen;
+//     BYTE   rgbRed;
+//     BYTE   rgbReserved;
+// } RGBQUAD;
 
 // int read_bmp_00(unsigned char** image, int* out_width, int* out_height,  int* bitCount,  char* fileName){
 

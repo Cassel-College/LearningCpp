@@ -6,7 +6,7 @@
 #include <math.h>
 #include <set>
 #include <vector>
-#include "pub.h"
+#include "../pub.h"
 
 using namespace std;
 

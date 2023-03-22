@@ -7,19 +7,13 @@
 #include <string>
 #include <map>
 #include <algorithm>
-#include "1/pub.h"
-#include "1/splitBmp.h"
-#include "1/histogramEqualize.h"
-#include "1/spatialFilter.h"
-#include "1/basicOperation.h"
-#include "1/threshold.h"
-#include "1/regionGrowing.h"
-#include "1/edgeDetection.h"
-#include "1/HoughTransform.h"
-#include "1/outlineExtraction.h"
-#include "1/read_write_bmp.h"
+#include "pub.h"
+#include "read_write_bmp.h"
 #include "splitBmp.h"
+#include "histogramEqualize.h"
 #include <cstring>
+#include "spatialFilter.h"
+#include "basicOperation.h"
 
 using namespace std;
 
@@ -87,6 +81,9 @@ void init() {
 }
 
 const char * read_bmp_1 = "/home/Code/github/LearningCpp/picture_process/bitmaps/image1.bmp";
+const char * read_bmp_2 = "/home/Code/github/LearningCpp/picture_process/bitmaps/image2.bmp";
+const char * read_bmp_31 = "/home/Code/github/LearningCpp/picture_process/bitmaps/image3_average.bmp";
+const char * read_bmp_32 = "/home/Code/github/LearningCpp/picture_process/bitmaps/image3_median.bmp";
 const char * write_bmp_red = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageR.bmp";
 const char * write_bmp_gray = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageGery.bmp";
 const char * write_bmp_gray_red = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageGeryRed.bmp";
@@ -95,25 +92,35 @@ const char * write_bmp_gray_green = "/home/Code/github/LearningCpp/picture_proce
 const char * write_bmp_green = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageG.bmp";
 const char * write_bmp_blue = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageB.bmp";
 const char * write_bmp_alter = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageGeryAlter.bmp";
+const char * write_bmp_equalize = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageEqualize.bmp";
+const char * write_bmp_histogram= "/home/Code/github/LearningCpp/picture_process/bitmaps/imageHistogram.bmp";
+const char * write_bmp_histoEqualize = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageHistoEqualize.bmp";
+const char * write_bmp_ab = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageAverageWithBorder.bmp";
+const char * write_bmp_aob = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageAverageWithoutBorder.bmp";
+const char * write_bmp_mb = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageMedianWithBorder.bmp";
+const char * write_bmp_mob = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageMedianWithoutBorder.bmp";
+const char * write_bmp_mirroring1 = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageMirroring1.bmp";
+const char * write_bmp_mirroring2 = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageMirroring2.bmp";
+const char * write_bmp_rotate = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageRotate.bmp";
+const char * write_bmp_move = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageMove.bmp";
+const char * write_bmp_scale = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageScale.bmp";
+
 
 Bmp in_bmp, out_bmp;
 BmpOperation bmpOperation;
 SplitBmp splitBmp;
-basicOperation basic;
-edgeDetection edge;
 HistogramEqualize histogram;
-HoughTransform hough;
-outlineExtraction outline;
-regionGrowing region;
 spatialFiltering spatial;
-threshold thres;
-
+basicOperation basic;
 
 Bmp init_colortable(Bmp bmp)
 {
 	int i;
+    // 创建调色板
 	bmp.pColorTable = (RGBQUAD*)malloc(256 * sizeof(RGBQUAD));
+    // 置于0
 	memset(bmp.pColorTable, 0, 256 * sizeof(RGBQUAD));
+    // 填充调色板
 	for (i = 0; i < 256; i++)
 	{
 		bmp.pColorTable[i].rgbBlue = i;
@@ -124,40 +131,101 @@ Bmp init_colortable(Bmp bmp)
 	return bmp;
 }
 
-//24位图r,g,b三个分量分离
-void split24(const char *read_bmp, const char *write_bmp_red, const char *write_bmp_green, const char *write_bmp_blue)
-{
-	in_bmp = bmpOperation.readBmp(read_bmp);
-	out_bmp = in_bmp;
-	out_bmp.biBitCount = 24;
-
-	out_bmp.pBmpBuf = splitBmp.init_rgb(in_bmp.pBmpBuf, in_bmp.height, in_bmp.width, in_bmp.lineByte).red;
-    ShowUserInformation(read_config_file(get_path("split_red_picture")));
-	bmpOperation.writeBmp(out_bmp, write_bmp_red);
-
-	out_bmp.pBmpBuf = splitBmp.init_rgb(in_bmp.pBmpBuf, in_bmp.height, in_bmp.width, in_bmp.lineByte).green;
-    ShowUserInformation(read_config_file(get_path("split_green_picture")));
-	bmpOperation.writeBmp(out_bmp, write_bmp_green);
-
-	out_bmp.pBmpBuf = splitBmp.init_rgb(in_bmp.pBmpBuf, in_bmp.height, in_bmp.width, in_bmp.lineByte).blue;
-    ShowUserInformation(read_config_file(get_path("split_blue_picture")));
-	bmpOperation.writeBmp(out_bmp, write_bmp_blue);
-
-	cout << "分离RGB成功！" << endl;
-}
-
 //将24位图变成灰度图
 void change24to8(const char *read_bmp, const char *write_bmp)
 {
     cout << "开始读取24位图 ..." << endl;
+    // 读取图片
+	in_bmp = bmpOperation.readBmp(read_bmp);
+	out_bmp = in_bmp;
+
+	out_bmp.biBitCount = 8;
+
+    // bmpWidth是位图的宽度，也就是每行有多少个像素块
+    // 8：8位图像
+    // 8：位数÷8即为每个像元占用字节数，bmpwidth*位数/8为有效字节数，在此基础上填充0
+    // 3: 补齐 存储图像数据每行字节数为4的倍数，所以+3是怕出现不满足4的倍数这种情况
+    // 4: BMP图片扫描引擎的最小单位是4字节，遵循4的整倍数
+    // 目的： 用来计算8位图每行占多少个字节
+	out_bmp.lineByte = (out_bmp.width * 8 / 8 + 3) / 4 * 4;
+
+	out_bmp = init_colortable(out_bmp);
+
+	out_bmp.pBmpBuf = splitBmp.init_gray(in_bmp.pBmpBuf, in_bmp.height, in_bmp.width, out_bmp.lineByte, in_bmp.lineByte);
+
+	bmpOperation.writeBmp(out_bmp, write_bmp);
+	cout << "成功转为8位灰度图" << endl;
+}
+
+
+
+//将24位图变成灰度图
+void change24to8_to_b(const char *read_bmp, const char *write_bmp)
+{
+    cout << "开始读取24位图 ..." << endl;
+    // 读取图片
 	in_bmp = bmpOperation.readBmp(read_bmp);
 	out_bmp = in_bmp;
 	out_bmp.biBitCount = 8;
 	out_bmp.lineByte = (out_bmp.width * 8 / 8 + 3) / 4 * 4;
 	out_bmp = init_colortable(out_bmp);
-	out_bmp.pBmpBuf = splitBmp.init_gray(in_bmp.pBmpBuf, in_bmp.height, in_bmp.width, out_bmp.lineByte, in_bmp.lineByte);
+	out_bmp.pBmpBuf = splitBmp.get_bgr_of_b(in_bmp.pBmpBuf, in_bmp.height, in_bmp.width, out_bmp.lineByte, in_bmp.lineByte);
 	bmpOperation.writeBmp(out_bmp, write_bmp);
-	cout << "成功转为8位灰度图" << endl;
+	cout << "成功转为8位灰度图-B" << endl;
+}
+
+void change24to8_to_g(const char *read_bmp, const char *write_bmp)
+{
+    cout << "开始读取24位图 ..." << endl;
+    // 读取图片
+	in_bmp = bmpOperation.readBmp(read_bmp);
+	out_bmp = in_bmp;
+	out_bmp.biBitCount = 8;
+	out_bmp.lineByte = (out_bmp.width * 8 / 8 + 3) / 4 * 4;
+	out_bmp = init_colortable(out_bmp);
+	out_bmp.pBmpBuf = splitBmp.get_bgr_of_g(in_bmp.pBmpBuf, in_bmp.height, in_bmp.width, out_bmp.lineByte, in_bmp.lineByte);
+	bmpOperation.writeBmp(out_bmp, write_bmp);
+	cout << "成功转为8位灰度图-G" << endl;
+}
+
+void change24to8_to_r(const char *read_bmp, const char *write_bmp)
+{
+    cout << "开始读取24位图 ..." << endl;
+    // 读取图片
+	in_bmp = bmpOperation.readBmp(read_bmp);
+	out_bmp = in_bmp;
+	out_bmp.biBitCount = 8;
+	out_bmp.lineByte = (out_bmp.width * 8 / 8 + 3) / 4 * 4;
+	out_bmp = init_colortable(out_bmp);
+	out_bmp.pBmpBuf = splitBmp.get_bgr_of_r(in_bmp.pBmpBuf, in_bmp.height, in_bmp.width, out_bmp.lineByte, in_bmp.lineByte);
+	bmpOperation.writeBmp(out_bmp, write_bmp);
+	cout << "成功转为8位灰度图-R" << endl;
+}
+
+
+void change24to24_gray(const char *read_bmp, const char *write_bmp)
+{
+    cout << "开始读取24位图 ..." << endl;
+    // 读取图片
+	in_bmp = bmpOperation.readBmp(read_bmp);
+	out_bmp = in_bmp;
+
+	out_bmp.biBitCount = 24;
+
+    // // bmpWidth是位图的宽度，也就是每行有多少个像素块
+    // // 8：8位图像
+    // // 8：位数÷8即为每个像元占用字节数，bmpwidth*位数/8为有效字节数，在此基础上填充0
+    // // 3: 补齐 存储图像数据每行字节数为4的倍数，所以+3是怕出现不满足4的倍数这种情况
+    // // 4: BMP图片扫描引擎的最小单位是4字节，遵循4的整倍数
+    // // 目的： 用来计算8位图每行占多少个字节
+	// out_bmp.lineByte = (out_bmp.width * 8 / 8 + 3) / 4 * 4;
+
+	out_bmp = init_colortable(out_bmp);
+
+	out_bmp.pBmpBuf = splitBmp.init_gray_24_to_24(in_bmp.pBmpBuf, in_bmp.height, in_bmp.width, out_bmp.lineByte, in_bmp.lineByte);
+    // 
+	bmpOperation.writeBmp(out_bmp, write_bmp);
+	cout << "成功转为24位灰度图" << endl;
 }
 
 //8位图反色
@@ -181,11 +249,12 @@ void equalize(const char *read_bmp, const char *write_bmp_equalize, const char *
 	out_bmp = init_colortable(out_bmp);
 	bmpOperation.writeBmp(out_bmp, write_bmp_equalize);
 	cout << "均衡化成功！" << endl;
+
 	in_bmp = bmpOperation.readBmp(write_bmp_equalize);
 	out_bmp = in_bmp;
-	out_bmp.pBmpBuf = histogram.saveHistogram(in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte);
+	out_bmp.pBmpBuf = histogram.saveHistogram512(in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte);
 	out_bmp = init_colortable(out_bmp);
-	out_bmp.height = 1000;
+	out_bmp.height = 512;
 	out_bmp.width = 512;
 	bmpOperation.writeBmp(out_bmp, write_bmp_histoequalize);
 	cout << "生成均衡化后的直方图" << endl;
@@ -196,22 +265,99 @@ void paintHistogram(const char *read_bmp, const char *write_bmp_histogram)
 {
 	in_bmp = bmpOperation.readBmp(read_bmp);
 	out_bmp = in_bmp;
-	out_bmp.pBmpBuf = histogram.saveHistogram(in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte);
+	out_bmp.pBmpBuf = histogram.saveHistogram512(in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte);
 	out_bmp = init_colortable(out_bmp);
-	out_bmp.height = 1000;
+	out_bmp.height = 512;
 	out_bmp.width = 512;
 	bmpOperation.writeBmp(out_bmp, write_bmp_histogram);
 	cout << "生成直方图" << write_bmp_histogram << endl;
 }
 
-//LOG
-void LOG(const char *read_bmp, const char *write_bmp)
+//均值滤波_无边界
+void averageWithoutBorder(const char *read_bmp, const char *write_bmp)
 {
 	in_bmp = bmpOperation.readBmp(read_bmp);
 	out_bmp = in_bmp;
-	out_bmp.pBmpBuf = edge.LOG(in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte);
-	bmpOperation.writeBmp(out_bmp, write_bmp); 
-	cout << "边缘检测LOG 完成" << endl;
+	out_bmp.pBmpBuf = spatial.average_without_border(in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte);
+	out_bmp = init_colortable(out_bmp);//可能不需要再次初始化调色板
+	bmpOperation.writeBmp(out_bmp, write_bmp);
+	cout << "均值滤波_无边界 完成" << endl;
+}
+
+//均值滤波_有边界
+void averageWithBorder(const char *read_bmp, const char *write_bmp)
+{
+	in_bmp = bmpOperation.readBmp(read_bmp);
+	out_bmp = in_bmp;
+	out_bmp.pBmpBuf = spatial.average_with_border(in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte);
+	out_bmp = init_colortable(out_bmp);//可能不需要再次初始化调色板
+	bmpOperation.writeBmp(out_bmp, write_bmp);
+	cout << "均值滤波_有边界 完成" << endl;
+}
+
+//中值滤波_无边界
+void medianWithoutBorder(const char *read_bmp, const char *write_bmp)
+{
+	in_bmp = bmpOperation.readBmp(read_bmp);
+	out_bmp = in_bmp;
+	out_bmp.pBmpBuf = spatial.median_without_border(in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte);
+	out_bmp = init_colortable(out_bmp);//可能不需要再次初始化调色板
+	bmpOperation.writeBmp(out_bmp, write_bmp);
+	cout << "中值滤波_无边界 完成" << endl;
+}
+
+//中值滤波_有边界
+void medianWithBorder(const char *read_bmp, const char *write_bmp)
+{
+	in_bmp = bmpOperation.readBmp(read_bmp);
+	out_bmp = in_bmp;
+	out_bmp.pBmpBuf = spatial.median_with_border(in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte);
+	out_bmp = init_colortable(out_bmp);
+	bmpOperation.writeBmp(out_bmp, write_bmp);
+	cout << "中值滤波_有边界 完成" << endl;
+}
+
+//镜像
+void mirroing(const char *read_bmp, const char *write_bmp, int flag)
+{
+	in_bmp = bmpOperation.readBmp(read_bmp);
+	out_bmp = in_bmp;
+	out_bmp.pBmpBuf = basic.bmpMirroring(in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte, flag);
+	bmpOperation.writeBmp(out_bmp, write_bmp);
+	cout << "图像镜像 完成" << endl;
+}
+
+//旋转
+void rotate(const char *read_bmp, const char *write_bmp, int angle)
+{
+	in_bmp = bmpOperation.readBmp(read_bmp);
+	out_bmp = in_bmp;
+	out_bmp.pBmpBuf = basic.bmpRotate(in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte, angle);
+	bmpOperation.writeBmp(out_bmp, write_bmp);
+	cout << "图像旋转 完成" << endl;
+}
+
+//平移
+void move(const char *read_bmp, const char *write_bmp, int x, int y)
+{
+	in_bmp = bmpOperation.readBmp(read_bmp);
+	out_bmp = in_bmp;
+	out_bmp.pBmpBuf = basic.bmpMove(in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte, x, y);
+	bmpOperation.writeBmp(out_bmp, write_bmp);
+	cout << "图像平移 完成" << endl;
+}
+
+//放缩
+void scale(const char *read_bmp, const char *write_bmp, float times1, float times2)
+{
+	in_bmp = bmpOperation.readBmp(read_bmp);
+	out_bmp = in_bmp;
+	out_bmp.pBmpBuf = basic.bmpScale(in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte, times1, times2);
+	out_bmp.width = out_bmp.width * times1;
+	out_bmp.height = out_bmp.height * times2;
+	out_bmp.lineByte = (out_bmp.width * 8 / 8 + 3) / 4 * 4;
+	bmpOperation.writeBmp(out_bmp, write_bmp);
+	cout << "图像放缩 完成" << endl;
 }
 
 
@@ -248,17 +394,48 @@ void ShowTaskInfo(const std::string &func_id) {
 }
 
 void ExecTask001() {
+    // 24位彩色图像转换为8位灰度图
     change24to8(read_bmp_1, write_bmp_gray);
+
+    // 终端注释
     ShowUserInformation(read_config_file(get_path("inner_line")));
     reverse8(write_bmp_gray, write_bmp_alter);
+
+    change24to8_to_b(read_bmp_1, write_bmp_gray_blue);
+    change24to8_to_g(read_bmp_1, write_bmp_gray_green);
+    change24to8_to_r(read_bmp_1, write_bmp_gray_red);
+}
+
+void ExecTask002() {
+    paintHistogram(read_bmp_2, write_bmp_histogram);
     ShowUserInformation(read_config_file(get_path("inner_line")));
-    split24(read_bmp_1, write_bmp_red, write_bmp_green, write_bmp_blue);
-    change24to8(write_bmp_red, write_bmp_gray_red);
-    change24to8(write_bmp_green, write_bmp_gray_green);
-    change24to8(write_bmp_blue, write_bmp_gray_blue);
+	equalize(read_bmp_2, write_bmp_equalize, write_bmp_histoEqualize);
+}
+
+void ExecTask003() {
+    averageWithBorder(read_bmp_31, write_bmp_ab);
+    ShowUserInformation(read_config_file(get_path("inner_line")));
+	averageWithoutBorder(read_bmp_31, write_bmp_aob);
+    ShowUserInformation(read_config_file(get_path("inner_line")));
+	medianWithBorder(read_bmp_32, write_bmp_mb);
+    ShowUserInformation(read_config_file(get_path("inner_line")));
+	medianWithoutBorder(read_bmp_32, write_bmp_mob);
+}
+
+void ExecTask004() {
+    scale(read_bmp_31, write_bmp_scale, 0.3f, 0.3f);
+    ShowUserInformation(read_config_file(get_path("inner_line")));
+	move(read_bmp_31, write_bmp_move, 100, 100);
+    ShowUserInformation(read_config_file(get_path("inner_line")));
+    mirroing(read_bmp_31, write_bmp_mirroring1, 1);
+    ShowUserInformation(read_config_file(get_path("inner_line")));
+	mirroing(read_bmp_31, write_bmp_mirroring2, 0);
+    ShowUserInformation(read_config_file(get_path("inner_line")));
+	rotate(read_bmp_31, write_bmp_rotate, -60);
+//	std::cout << "透视变换 not dev" << std::endl;
 }
 
 int main()
 {
-    ExecTask001();
+    ExecTask004();
 }
