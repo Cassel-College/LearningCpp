@@ -14,6 +14,7 @@
 #include <cstring>
 #include "spatialFilter.h"
 #include "basicOperation.h"
+#include "threshold.h"
 
 using namespace std;
 
@@ -101,9 +102,14 @@ const char * write_bmp_mb = "/home/Code/github/LearningCpp/picture_process/bitma
 const char * write_bmp_mob = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageMedianWithoutBorder.bmp";
 const char * write_bmp_mirroring1 = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageMirroring1.bmp";
 const char * write_bmp_mirroring2 = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageMirroring2.bmp";
-const char * write_bmp_rotate = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageRotate.bmp";
+const char * write_bmp_rotate1 = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageRotate1.bmp";
+const char * write_bmp_rotate2 = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageRotate2.bmp";
+const char * write_bmp_rotateII = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageRotateII.bmp";
 const char * write_bmp_move = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageMove.bmp";
 const char * write_bmp_scale = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageScale.bmp";
+const char * write_bmp_givenT = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageGivenT.bmp";
+const char * write_bmp_iteration = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageIteration.bmp";
+const char * write_bmp_otsu = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageOtsu.bmp";
 
 
 Bmp in_bmp, out_bmp;
@@ -112,6 +118,7 @@ SplitBmp splitBmp;
 HistogramEqualize histogram;
 spatialFiltering spatial;
 basicOperation basic;
+threshold thres;
 
 Bmp init_colortable(Bmp bmp)
 {
@@ -337,6 +344,28 @@ void rotate(const char *read_bmp, const char *write_bmp, int angle)
 	cout << "图像旋转 完成" << endl;
 }
 
+void rotateII(const char *read_bmp, const char *write_bmp, const char *writeII_bmp, int angle)
+{
+	in_bmp = bmpOperation.readBmp(read_bmp);
+	out_bmp = in_bmp;
+	std::vector<int> infos;
+	out_bmp.pBmpBuf = basic.bmpRotateII(in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte, angle, infos);
+	out_bmp.width = out_bmp.width * 2;
+	out_bmp.height = out_bmp.height * 2;
+	out_bmp.lineByte = (out_bmp.width * 8 / 8 + 3) / 4 * 4;
+	bmpOperation.writeBmp(out_bmp, write_bmp);
+	cout << "图像旋转I 完成" << endl;
+
+	in_bmp = bmpOperation.readBmp(read_bmp);
+	Bmp outr_bmp = in_bmp;
+	outr_bmp.width = infos[0];
+	outr_bmp.height = infos[1];
+	outr_bmp.lineByte = (outr_bmp.width * 8 / 8 + 3) / 4 * 4;
+	outr_bmp.pBmpBuf = basic.bmpCreate(out_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte, infos);
+	bmpOperation.writeBmp(outr_bmp, writeII_bmp);
+	cout << "图像旋转II 完成" << endl;
+}
+
 //平移
 void move(const char *read_bmp, const char *write_bmp, int x, int y)
 {
@@ -358,6 +387,40 @@ void scale(const char *read_bmp, const char *write_bmp, float times1, float time
 	out_bmp.lineByte = (out_bmp.width * 8 / 8 + 3) / 4 * 4;
 	bmpOperation.writeBmp(out_bmp, write_bmp);
 	cout << "图像放缩 完成" << endl;
+}
+
+//给定阈值分割
+void thresholdByGivenT(const char *read_bmp, const char *write_bmp, int T)
+{
+	in_bmp = bmpOperation.readBmp(read_bmp);
+	out_bmp = in_bmp;
+	out_bmp.pBmpBuf = thres.givenT(T, in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte);
+	bmpOperation.writeBmp(out_bmp, write_bmp);
+	cout << "给定阈值分割 完成" << endl;
+}
+
+//迭代阈值分割
+void thresholdByIteration(const char *read_bmp, const char *write_bmp)
+{
+	int T;
+	in_bmp = bmpOperation.readBmp(read_bmp);
+	T = thres.iterationT(in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte);
+	cout << "迭代出的阈值为：" << T << endl;
+	out_bmp.pBmpBuf = thres.givenT(T, in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte);
+	bmpOperation.writeBmp(out_bmp, write_bmp);
+	cout << "迭代阈值分割 完成" << endl;
+}
+
+//Otsu阈值分割
+void thresholdByOtsu(const char *read_bmp, const char *write_bmp)
+{
+	int T;
+	in_bmp = bmpOperation.readBmp(read_bmp);
+	T = thres.OtsuT(in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte);
+	cout << "Otsu算法得出的阈值为：" << T << endl;
+	out_bmp.pBmpBuf = thres.givenT(T, in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte);
+	bmpOperation.writeBmp(out_bmp, write_bmp);
+	cout << "Otsu阈值分割 完成" << endl;
 }
 
 
@@ -431,11 +494,21 @@ void ExecTask004() {
     ShowUserInformation(read_config_file(get_path("inner_line")));
 	mirroing(read_bmp_31, write_bmp_mirroring2, 0);
     ShowUserInformation(read_config_file(get_path("inner_line")));
-	rotate(read_bmp_31, write_bmp_rotate, -60);
+	rotate(read_bmp_31, write_bmp_rotate1, -60);
+	ShowUserInformation(read_config_file(get_path("inner_line")));
+	rotateII(read_bmp_31, write_bmp_rotate2, write_bmp_rotateII, -60);
 //	std::cout << "透视变换 not dev" << std::endl;
+}
+
+void ExecTask005() {
+    thresholdByGivenT(read_bmp_31, write_bmp_givenT, 128);
+    ShowUserInformation(read_config_file(get_path("inner_line")));
+	thresholdByIteration(read_bmp_31, write_bmp_iteration);
+    ShowUserInformation(read_config_file(get_path("inner_line")));
+	thresholdByOtsu(read_bmp_31, write_bmp_otsu);
 }
 
 int main()
 {
-    ExecTask004();
+    ExecTask005();
 }
