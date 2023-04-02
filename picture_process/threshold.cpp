@@ -36,7 +36,7 @@ int threshold::iterationT(unsigned char * bmp, int width, int height, int lineby
 
 int threshold::OtsuT(unsigned char * bmp, int width, int height, int linebyte)
 {
-	int T; //ãÐÖµ
+	int T; 
 	int c1, c2;
 	float w, w0, a1, a2, u1, u2;
 	w0 = 0;

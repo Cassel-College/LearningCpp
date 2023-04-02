@@ -13,8 +13,7 @@ PerspectiveTransform PerspectiveTransform::quadrilateralToQuadrilateral(float x0
     float x2, float y2, float x3, float y3, float x0p, float y0p, float x1p, float y1p, float x2p, float y2p,
     float x3p, float y3p) {
   PerspectiveTransform qToS = PerspectiveTransform::quadrilateralToSquare(x0, y0, x1, y1, x2, y2, x3, y3);
-  PerspectiveTransform sToQ =
-    PerspectiveTransform::squareToQuadrilateral(x0p, y0p, x1p, y1p, x2p, y2p, x3p, y3p);
+  PerspectiveTransform sToQ = PerspectiveTransform::squareToQuadrilateral(x0p, y0p, x1p, y1p, x2p, y2p, x3p, y3p);
   return sToQ.times(qToS);
 }
  
@@ -64,7 +63,7 @@ PerspectiveTransform PerspectiveTransform::times(PerspectiveTransform other) {
   return result;
 }
  
-void PerspectiveTransform::transformPoints(vector<float> &points) {
+void PerspectiveTransform::transformPoints(std::vector<float> &points) {
   int max = points.size();
   for (int i = 0; i < max; i += 2) {
     float x = points[i];
