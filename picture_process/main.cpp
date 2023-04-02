@@ -84,6 +84,7 @@ void init() {
 const char * read_bmp_1 = "/home/Code/github/LearningCpp/picture_process/bitmaps/image1.bmp";
 const char * read_bmp_2 = "/home/Code/github/LearningCpp/picture_process/bitmaps/image2.bmp";
 const char * read_bmp_31 = "/home/Code/github/LearningCpp/picture_process/bitmaps/image3_average.bmp";
+const char * read_bmp_31_per = "/home/Code/github/LearningCpp/picture_process/bitmaps/image3_perspective_transform.bmp";
 const char * read_bmp_32 = "/home/Code/github/LearningCpp/picture_process/bitmaps/image3_median.bmp";
 const char * write_bmp_red = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageR.bmp";
 const char * write_bmp_gray = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageGery.bmp";
@@ -110,6 +111,15 @@ const char * write_bmp_scale = "/home/Code/github/LearningCpp/picture_process/bi
 const char * write_bmp_givenT = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageGivenT.bmp";
 const char * write_bmp_iteration = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageIteration.bmp";
 const char * write_bmp_otsu = "/home/Code/github/LearningCpp/picture_process/bitmaps/imageOtsu.bmp";
+const char * read_bmp_test4 = "/home/Code/github/LearningCpp/picture_process/bitmaps/test4.bmp";
+const char * read_bmp_test4_p = "/home/Code/github/LearningCpp/picture_process/bitmaps/test4_perspective_transform.bmp";
+const char * write_bmp_histogram_givenT = "/home/Code/github/LearningCpp/picture_process/bitmaps/imagehistogram_givenT.bmp";
+const char * write_bmp_histogram_iter = "/home/Code/github/LearningCpp/picture_process/bitmaps/imagehistogram_Iteration.bmp";
+const char * write_bmp_histogram_otsu = "/home/Code/github/LearningCpp/picture_process/bitmaps/imagehistogram_Otsu.bmp";
+
+const char * new_write_bmp_histogram_givenT = "/home/Code/github/LearningCpp/picture_process/bitmaps/new_imagehistogram_givenT.bmp";
+const char * new_write_bmp_histogram_iter   = "/home/Code/github/LearningCpp/picture_process/bitmaps/new_imagehistogram_Iteration.bmp";
+const char * new_write_bmp_histogram_otsu   = "/home/Code/github/LearningCpp/picture_process/bitmaps/new_imagehistogram_Otsu.bmp";
 
 
 Bmp in_bmp, out_bmp;
@@ -280,6 +290,20 @@ void paintHistogram(const char *read_bmp, const char *write_bmp_histogram)
 	cout << "生成直方图" << write_bmp_histogram << endl;
 }
 
+//绘制直方图
+void paintHistogramWithTargetValue(const char *read_bmp, const char *write_bmp_histogram)
+{
+	in_bmp = bmpOperation.readBmp(read_bmp);
+	out_bmp = in_bmp;
+	out_bmp.pBmpBuf = histogram.saveHistogram512(in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte);
+	out_bmp = init_colortable(out_bmp);
+	out_bmp.height = 512;
+	out_bmp.width = 512;
+	bmpOperation.writeBmp(out_bmp, write_bmp_histogram);
+	cout << "生成直方图" << write_bmp_histogram << endl;
+}
+
+
 //均值滤波_无边界
 void averageWithoutBorder(const char *read_bmp, const char *write_bmp)
 {
@@ -389,18 +413,43 @@ void scale(const char *read_bmp, const char *write_bmp, float times1, float time
 	cout << "图像放缩 完成" << endl;
 }
 
+//透视
+void perspective_transform(const char *read_bmp, const char *write_bmp)
+{
+	in_bmp = bmpOperation.readBmp(read_bmp);
+	out_bmp = in_bmp;
+	out_bmp.pBmpBuf = basic.bmpPerspect(in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte);
+	bmpOperation.writeBmp(out_bmp, write_bmp);
+	cout << "图像透视 完成" << endl;
+}
+
+//绘制直方图
+void paintHistogram2(const char *read_bmp, const char *write_bmp_histogram,const int num)
+{
+	in_bmp = bmpOperation.readBmp(read_bmp);
+	out_bmp = in_bmp;
+	out_bmp.pBmpBuf = histogram.saveHistogram512_3(in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte, num);
+	out_bmp = init_colortable(out_bmp);
+	out_bmp.height = 512;
+	out_bmp.width = 512;
+	bmpOperation.writeBmp(out_bmp, write_bmp_histogram);
+	cout << "生成直方图" << write_bmp_histogram << endl;
+}
+
 //给定阈值分割
-void thresholdByGivenT(const char *read_bmp, const char *write_bmp, int T)
+void thresholdByGivenT(const char *read_bmp, const char *write_bmp, const char *write_bmp_histogram, int T)
 {
 	in_bmp = bmpOperation.readBmp(read_bmp);
 	out_bmp = in_bmp;
 	out_bmp.pBmpBuf = thres.givenT(T, in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte);
 	bmpOperation.writeBmp(out_bmp, write_bmp);
 	cout << "给定阈值分割 完成" << endl;
+	// paintHistogram2(write_bmp, write_bmp_histogram, T);
+	paintHistogram2(read_bmp, write_bmp_histogram, T);
 }
 
 //迭代阈值分割
-void thresholdByIteration(const char *read_bmp, const char *write_bmp)
+void thresholdByIteration(const char *read_bmp, const char *write_bmp, const char *write_bmp_histogram)
 {
 	int T;
 	in_bmp = bmpOperation.readBmp(read_bmp);
@@ -409,10 +458,12 @@ void thresholdByIteration(const char *read_bmp, const char *write_bmp)
 	out_bmp.pBmpBuf = thres.givenT(T, in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte);
 	bmpOperation.writeBmp(out_bmp, write_bmp);
 	cout << "迭代阈值分割 完成" << endl;
+	// paintHistogram2(write_bmp, write_bmp_histogram, T);
+	paintHistogram2(read_bmp, write_bmp_histogram, T);
 }
 
 //Otsu阈值分割
-void thresholdByOtsu(const char *read_bmp, const char *write_bmp)
+void thresholdByOtsu(const char *read_bmp, const char *write_bmp, const char *write_bmp_histogram)
 {
 	int T;
 	in_bmp = bmpOperation.readBmp(read_bmp);
@@ -421,8 +472,9 @@ void thresholdByOtsu(const char *read_bmp, const char *write_bmp)
 	out_bmp.pBmpBuf = thres.givenT(T, in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte);
 	bmpOperation.writeBmp(out_bmp, write_bmp);
 	cout << "Otsu阈值分割 完成" << endl;
+	// paintHistogram2(write_bmp, write_bmp_histogram, T);
+	paintHistogram2(read_bmp, write_bmp_histogram, T);
 }
-
 
 std::string get_task_name(const std::string &input_id) {
     std::string task_name  = "";
@@ -497,15 +549,31 @@ void ExecTask004() {
 	rotate(read_bmp_31, write_bmp_rotate1, -60);
 	ShowUserInformation(read_config_file(get_path("inner_line")));
 	rotateII(read_bmp_31, write_bmp_rotate2, write_bmp_rotateII, -60);
-//	std::cout << "透视变换 not dev" << std::endl;
+	ShowUserInformation(read_config_file(get_path("inner_line")));
+	perspective_transform(read_bmp_test4, read_bmp_test4_p);
+}
+
+
+//绘制直方图
+void paintHistogramWithTargetValueByLMX(const char *read_bmp, const char *write_bmp_histogram)
+{
+	in_bmp = bmpOperation.readBmp(read_bmp);
+	out_bmp = in_bmp;
+	out_bmp.pBmpBuf = histogram.saveHistogram512(in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte);
+	out_bmp = init_colortable(out_bmp);
+	out_bmp.height = 512;
+	out_bmp.width = 512;
+	bmpOperation.writeBmp(out_bmp, write_bmp_histogram);
+	cout << "生成直方图" << write_bmp_histogram << endl;
 }
 
 void ExecTask005() {
-    thresholdByGivenT(read_bmp_31, write_bmp_givenT, 128);
+
+    thresholdByGivenT(read_bmp_31, write_bmp_givenT, write_bmp_histogram_givenT, 128);
     ShowUserInformation(read_config_file(get_path("inner_line")));
-	thresholdByIteration(read_bmp_31, write_bmp_iteration);
+	thresholdByIteration(read_bmp_31, write_bmp_iteration, write_bmp_histogram_iter);
     ShowUserInformation(read_config_file(get_path("inner_line")));
-	thresholdByOtsu(read_bmp_31, write_bmp_otsu);
+	thresholdByOtsu(read_bmp_31, write_bmp_otsu, write_bmp_histogram_otsu);
 }
 
 int main()

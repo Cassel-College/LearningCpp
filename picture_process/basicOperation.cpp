@@ -8,6 +8,8 @@
 #include "stdlib.h"
 #include "stdio.h"
 
+#include "perspective_transform.h"
+
 using namespace std;
 
 unsigned char * basicOperation::bmpScale(unsigned char * bmp, int width, int height, int linebyte, float times1, float times2)
@@ -79,7 +81,7 @@ unsigned char * basicOperation::bmpCreate(unsigned char * bmp, int width, int he
     for (auto item : infos) {
         std::cout << item << std::endl;
     }
-    std::cout << "--bmpCreate" << std::endl;
+    // std::cout << "--bmpCreate" << std::endl;
     linebyte = (infos[0] * 8 / 8 + 3) / 4 * 4;
     pBmpBuf = new unsigned char[infos[1] * linebyte] {0};
     int newlineByte = ((width * 2) * 8 / 8 + 3) / 4 * 4;
@@ -304,42 +306,48 @@ unsigned char * basicOperation::bmpMirroring(unsigned char * bmp, int width, int
     return pBmpBuf;
 }
 
-
-
-unsigned char * basicOperation::bmpPerspect(unsigned char * bmp, int width, int height, int linebyte,
-                                std::vector<std::vector<int>> old_point, std::vector<std::vector<int>> new_point) {
+unsigned char * basicOperation::bmpPerspect(unsigned char * bmp, int width, int height, int linebyte) {
 
     pBmpBuf = new unsigned char[height*linebyte];
-    if (old_point.size() < 4 || new_point.size() < 4) {
-        // 如参错误
-        return pBmpBuf;
-    }
-    std::vector<int> a0 = old_point[0];
-    std::vector<int> a1 = old_point[1];
-    std::vector<int> a2 = old_point[2];
-    std::vector<int> a3 = old_point[3];
+    std::cout << width << "," << height << std::endl;
+    int target = 700;
+    PerspectiveTransform tansform = PerspectiveTransform::quadrilateralToQuadrilateral(
+		0, 0,
+		width-1 + target, -target,
+		0, height-1,
+		width-1 + target, height+target,
+        0, 0,
+		width-1, 0,
+		0, height-1,
+		width-1, height-10);
+    
+    vector<float> ponits;
+	for(int i = 0; i < height; i++) {
+		for(int j = 0; j < width; j++) {
+			ponits.push_back(j);
+			ponits.push_back(i);
+		}
+	}
 
-    std::vector<int> A0 = new_point[0];
-    std::vector<int> A1 = new_point[1];
-    std::vector<int> A2 = new_point[2];
-    std::vector<int> A3 = new_point[3];
+	tansform.transformPoints(ponits);
 
+    for(int i=0;i< height;i++) {
+		// uchar*  t= img_trans.ptr<uchar>(i);
+		for (int j = 0; j < width; j++){
+			int tmp = i * width + j;
+			int x = ponits[tmp * 2];
+			int y = ponits[tmp * 2 + 1];
+			if(x < 0 || x > (width - 1) || y < 0 || y > (height - 1))
+				continue;
+			// uchar* p = img.ptr<uchar>(y);
 
-
-    // if (flag == 0) {
-    //     for (i = 0; i < height; i++) {
-    //         for (j = 0; j < width; j++) {
-    //             pBmpBuf[(height - 1 - i) * linebyte + j] = bmp[i * linebyte + j];
-    //         }
-    //     }
-    // }
-    // if (flag == 1) {
-    //     for (i = 0; i < height; i++) {
-    //         for (j = 0; j < width; j++) {
-    //             pBmpBuf[i * linebyte + width - 1 - j] = bmp[i * linebyte + j];
-    //         }
-    //     }
-    // }
+            pBmpBuf[i * linebyte + j] = bmp[y * linebyte + x];
+            // pBmpBuf[i * linebyte + j] = bmp[y];
+			// t[j*3] = p[x*3];
+			// t[j*3+1] = p[x*3+1];
+			// t[j*3+2] = p[x*3+2];
+		}
+	}
     return pBmpBuf;
 }
 

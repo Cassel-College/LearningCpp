@@ -20,5 +20,9 @@ public:
 	unsigned char * saveHistogram(unsigned char * bmp, int width, int height, int linebyte);
 
 	unsigned char * equalization(unsigned char * bmp, int width, int height, int linebyte);
+
+	unsigned char * saveHistogram512_2(unsigned char * bmp, int width, int height, int linebyte, int num);
+	unsigned char * saveHistogram512_3(unsigned char * bmp, int width, int height, int linebyte, int num);
+
 };
 
