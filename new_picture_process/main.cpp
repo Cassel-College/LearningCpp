@@ -14,7 +14,7 @@
 #include "src/cases/cases_003/running_003.h"
 #include "src/cases/cases_004/running_004.h"
 #include "src/cases/cases_005/running_005.h"
-// #include "src/cases/cases_006/running_006.h"
+#include "src/cases/cases_006/running_006.h"
 // #include "src/cases/cases_007/running_007.h"
 // #include "src/cases/cases_008/running_008.h"
 // #include "src/cases/cases_009/running_009.h"
@@ -36,6 +36,9 @@ int main()
 
 	std::shared_ptr<Exec005> execution_005 = std::make_shared<Exec005>();
 	execution_005->run();
+
+	std::shared_ptr<Exec006> execution_006 = std::make_shared<Exec006>();
+	execution_006->run();
 
 	return 0;
 }
