@@ -49,8 +49,8 @@ int main()
 	std::shared_ptr<Exec009> execution_009 = std::make_shared<Exec009>();
 	execution_009->run();
 
-	std::shared_ptr<Exec010> execution_010 = std::make_shared<Exec010>();
-	execution_010->run();
+	// std::shared_ptr<Exec010> execution_010 = std::make_shared<Exec010>();
+	// execution_010->run();
 
 	return 0;
 }
