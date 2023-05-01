@@ -1,7 +1,7 @@
 #include "running_001.h"
 
 Exec001::Exec001() {
-    std::cout << "in" << std::endl;
+	std::cout << "开始读取图片 ..." << read_bmp_1 << std::endl;
 }
 
 Exec001::~Exec001() {
@@ -30,6 +30,7 @@ Bmp Exec001::init_colortable(Bmp bmp)
 void Exec001::change24to8(const char *read_bmp, const char *write_bmp)
 {
     cout << "开始读取24位图 ..." << read_bmp << endl;
+	
     // 读取图片
 	in_bmp = bmpOperation.readBmp(read_bmp);
 	out_bmp = in_bmp;
@@ -136,10 +137,14 @@ void Exec001::reverse8(const char *read_bmp, const char *write_bmp)
 
 
 void Exec001::run() {
-    
+    std::cout << "开始读取图片 ..." << read_bmp_1 << std::endl;
     change24to8(read_bmp_1, write_bmp_gray);
     reverse8(write_bmp_gray, write_bmp_alter);
     change24to8_to_b(read_bmp_1, write_bmp_gray_blue);
     change24to8_to_g(read_bmp_1, write_bmp_gray_green);
     change24to8_to_r(read_bmp_1, write_bmp_gray_red);
+
+	change24to8_to_b(read_bmp_1, write_bmp_blue);
+    change24to8_to_g(read_bmp_1, write_bmp_green);
+    change24to8_to_r(read_bmp_1, write_bmp_red);
 }

@@ -19,7 +19,7 @@
 #include "./../../../src/common/spatialFilter.h"
 #include "./../../../src/common/basicOperation.h"
 #include "./../../../src/common/threshold.h"
-
+#include "./../../../src/tools/get_root_path.h"
 
 class Exec001 {
 
@@ -55,13 +55,23 @@ private:
     basicOperation basic;
     threshold thres;
 
-    const char * read_bmp_1 = "./../images/source/image1.bmp";
-    const char * write_bmp_red = "./../images/target01/imageR.bmp";
-    const char * write_bmp_gray = "./..images/target01/imageGery.bmp";
-    const char * write_bmp_gray_red = "./../images/target01/imageGeryRed.bmp";
-    const char * write_bmp_gray_blue = "./../images/target01/imageGeryBlue.bmp";
-    const char * write_bmp_gray_green = "./../images/target01/imageGeryGreen.bmp";
-    const char * write_bmp_green = "./../images/target01/imageG.bmp";
-    const char * write_bmp_blue = "./../images/target01/imageB.bmp";
-    const char * write_bmp_alter = "./../images/target01/imageGeryAlter.bmp";
+    const char * read_bmp_1           = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/source/image1.bmp";
+    const char * write_bmp_red        = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target01/imageR.bmp";
+    const char * write_bmp_gray       = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target01/imageGery.bmp";
+    const char * write_bmp_gray_red   = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target01/imageGeryRed.bmp";
+    const char * write_bmp_gray_blue  = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target01/imageGeryBlue.bmp";
+    const char * write_bmp_gray_green = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target01/imageGeryGreen.bmp";
+    const char * write_bmp_green      = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target01/imageG.bmp";
+    const char * write_bmp_blue       = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target01/imageB.bmp";
+    const char * write_bmp_alter      = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target01/imageGeryAlter.bmp";
+
+    // const char * read_bmp_1           = std::string(RootPath::getRootPath() + std::string("images/source/image1.bmp")).c_str();
+    // const char * write_bmp_red        = std::string(RootPath::getRootPath() + std::string("images/target01/imageR.bmp")).c_str();
+    // const char * write_bmp_gray       = std::string(RootPath::getRootPath() + std::string("images/target01/imageGery.bmp")).c_str();
+    // const char * write_bmp_gray_red   = std::string(RootPath::getRootPath() + std::string("images/target01/imageGeryRed.bmp")).c_str();
+    // const char * write_bmp_gray_blue  = std::string(RootPath::getRootPath() + std::string("images/target01/imageGeryBlue.bmp")).c_str();
+    // const char * write_bmp_gray_green = std::string(RootPath::getRootPath() + std::string("images/target01/imageGeryGreen.bmp")).c_str();
+    // const char * write_bmp_green      = std::string(RootPath::getRootPath() + std::string("images/target01/imageG.bmp")).c_str();
+    // const char * write_bmp_blue       = std::string(RootPath::getRootPath() + std::string("images/target01/imageB.bmp")).c_str();
+    // const char * write_bmp_alter      = std::string(RootPath::getRootPath() + std::string("images/target01/imageGeryAlter.bmp")).c_str();
 };
