@@ -44,6 +44,9 @@ void Exec008::extractOutline(const char *read_bmp, const char *write_bmp)
 }
 
 void Exec008::run() {
+    //  基于边界跟踪提取轮廓，内部使用栈。
     regionMark(read_bmp_4, write_bmp_regionMark);
+
+    // 基于边界点的定义提取轮廓
     extractOutline(read_bmp_4, write_bmp_outline);
 }
