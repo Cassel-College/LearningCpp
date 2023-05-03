@@ -20,7 +20,6 @@ unsigned char * outlineExtraction::regionMark(unsigned char * bmp, int width, in
 				s.push_back(p);
 				while (!s.empty())
 				{
-
 					POINT currPt = s.back();
 					s.pop_back();
 					origin.x = currPt.x;
