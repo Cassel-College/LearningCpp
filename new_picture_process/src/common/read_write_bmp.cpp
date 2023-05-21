@@ -13,14 +13,7 @@ Bmp BmpOperation::readBmp(const char * bmpName) //文件名及路径
 	bmp.biBitCount = head.biBitCount;
 	bmp.width = head.biWidth;
 	bmp.height = head.biHeight;
-    // bmp.height = head.biSizeImage / head.biWidth / head.biBitCount;
     bmp.lineByte = (bmp.width * bmp.biBitCount / 8 + 3) / 4 * 4; //定义变量，计算图象每行像素所占的字节数（必须是4的倍数）
-
-    // std::cout << "head.biSizeImage: " << head.biSizeImage << std::endl;
-    // std::cout << "bmp.biBitCount: " << bmp.biBitCount << std::endl;
-    // std::cout << "bmp.width: " << bmp.width << std::endl;
-    // std::cout << "bmp.height: " << bmp.height << std::endl;
-    // std::cout << "bmp.lineByte:" << bmp.lineByte << std::endl;
 	//灰度图象有颜色表，且颜色表表项为256
 	if (bmp.biBitCount == 8)
 	{

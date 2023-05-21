@@ -101,6 +101,15 @@ void Exec004::perspective_transform(const char *read_bmp, const char *write_bmp)
 	cout << "图像透视 完成" << endl;
 }
 
+void Exec004::perspective_transform_for10(const char *read_bmp, const char *write_bmp)
+{
+	in_bmp = bmpOperation.readBmp(read_bmp);
+	out_bmp = in_bmp;
+	out_bmp.pBmpBuf = basic.bmpPerspect_10(in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte);
+	bmpOperation.writeBmp(out_bmp, write_bmp);
+	cout << "图像透视 完成" << endl;
+}
+
 void Exec004::run() {
     scale(read_bmp_31, write_bmp_scale, 0.3f, 0.3f);
     

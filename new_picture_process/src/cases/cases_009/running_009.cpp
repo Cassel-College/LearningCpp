@@ -53,9 +53,13 @@ void Exec009::LOG(const char *read_bmp, const char *write_bmp)
 }
 
 void Exec009::run() {
-    prewitt(write_bmp_gray, write_bmp_prewitt);
-    Sobel(write_bmp_gray, write_bmp_sobel);
-    LOG(write_bmp_gray, write_bmp_LOG);
+    prewitt(read_bmp_9_2, write_bmp_prewitt);
+    Sobel(read_bmp_9_2, write_bmp_sobel);
+    LOG(read_bmp_9_2, write_bmp_LOG);
+
+    prewitt(read_bmp_9_1, write_bmp_prewitt_cp);
+    Sobel(read_bmp_9_1, write_bmp_sobel_cp);
+    LOG(read_bmp_9_1, write_bmp_LOG_cp);
 }
 
 

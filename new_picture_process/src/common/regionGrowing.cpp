@@ -32,6 +32,9 @@ unsigned char * regionGrowing::growwWithSeed(POINT ptGrowing, unsigned char * bm
 	return pBmpBuf;
 }
 
+
+
+
 unsigned char * regionGrowing::growWithoutSeed(unsigned char * bmp, int width, int height, int linebyte)
 {
 	unsigned char * pBmpBuf = new unsigned char[height*linebyte]{ 0 };
@@ -566,3 +569,5 @@ unsigned char * regionGrowing::growWithoutSeed(unsigned char * bmp, int width, i
 	}
 	return pBmpBuf;
 }
+
+

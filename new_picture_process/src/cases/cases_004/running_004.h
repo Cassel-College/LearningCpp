@@ -42,6 +42,8 @@ public:
 
     void perspective_transform(const char *read_bmp, const char *write_bmp);
     
+    void perspective_transform_for10(const char *read_bmp, const char *write_bmp);
+    
     void run();
 
 private:

@@ -12,5 +12,6 @@ class HoughTransform {
 public:
 	int i, j, num;
 	int bt;
-	unsigned char * lineDetection(unsigned char * bmp, int width, int height, int linebyte, int number);
+	unsigned char * lineDetectionI(unsigned char * bmp, int width, int height, int linebyte, int number);
+	unsigned char * lineDetectionII(unsigned char * bmp, int width, int height, int linebyte, int number);
 };

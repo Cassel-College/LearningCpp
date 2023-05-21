@@ -27,4 +27,5 @@ public:
 
 	unsigned char * regionMark(unsigned char * bmp, int width, int height, int linebyte);
 	unsigned char * extractOutline(unsigned char * bmp, int width, int height, int linebyte);
+    void RAdd(unsigned char * in_bmp, int width, int height, int linebyte);
 };

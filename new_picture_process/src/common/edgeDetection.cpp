@@ -25,6 +25,7 @@ unsigned char * edgeDetection::Prewitt(unsigned char * bmp, int width, int heigh
 	}
 	T = th.OtsuT(pBmpBuf, width, height, linebyte);
 	pBmpBuf = th.givenT(T, pBmpBuf, width, height, linebyte);
+	RAdd(pBmpBuf, width, height, linebyte);
 	return pBmpBuf;
 }
 
@@ -53,6 +54,7 @@ unsigned char * edgeDetection::Sobel(unsigned char * bmp, int width, int height,
 	}
 	T = th.OtsuT(pBmpBuf, width, height, linebyte);
 	pBmpBuf = th.givenT(T, pBmpBuf, width, height, linebyte);
+	RAdd(pBmpBuf, width, height, linebyte);
 	return pBmpBuf;
 }
 
@@ -62,7 +64,7 @@ unsigned char * edgeDetection::LOG(unsigned char * bmp, int width, int height, i
 	threshold th;
 	int T;
 	pBmpBuf = new unsigned char[height*linebyte]{ 0 };
-	pBmpBuf = sf.average_with_border(pBmpBuf, width, height, linebyte);//¸ßË¹ÂË²¨
+	pBmpBuf = sf.average_with_border(pBmpBuf, width, height, linebyte);
 	for (i = 1; i < width; i++)
 	{
 		for (j = 1; j < height; j++)
@@ -73,5 +75,26 @@ unsigned char * edgeDetection::LOG(unsigned char * bmp, int width, int height, i
 	}
 	T = th.OtsuT(pBmpBuf, width, height, linebyte);
 	pBmpBuf = th.givenT(T, pBmpBuf, width, height, linebyte);
+	RAdd(pBmpBuf, width, height, linebyte);
 	return pBmpBuf;
+}
+
+
+void edgeDetection::RAdd(unsigned char * in_bmp, int width, int height, int linebyte)
+{
+	for (int i = 0; i < height; i++)
+	{
+		for (int j = 0; j < width; j++)
+		{
+			if (in_bmp[i * linebyte + j] == 255) {
+				in_bmp[i * linebyte + j] = 0;
+				continue;
+			}
+			if (in_bmp[i * linebyte + j] == 0) {
+				in_bmp[i * linebyte + j] = 255;
+				continue;
+			}
+			
+		}
+	}
 }

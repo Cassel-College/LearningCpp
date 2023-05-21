@@ -48,7 +48,7 @@ void Exec005::thresholdByGivenT(const char *read_bmp, const char *write_bmp, con
 	bmpOperation.writeBmp(out_bmp, write_bmp);
 	cout << "给定阈值分割 完成" << endl;
 	// paintHistogram2(write_bmp, write_bmp_histogram, T);
-	paintHistogram2(read_bmp, write_bmp_histogram, T);
+	// paintHistogram2(read_bmp, write_bmp_histogram, T);
 }
 
 //迭代阈值分割
@@ -58,6 +58,7 @@ void Exec005::thresholdByIteration(const char *read_bmp, const char *write_bmp, 
 	in_bmp = bmpOperation.readBmp(read_bmp);
 	T = thres.iterationT(in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte);
 	cout << "迭代出的阈值为：" << T << endl;
+	in_bmp = bmpOperation.readBmp(read_bmp);
 	out_bmp.pBmpBuf = thres.givenT(T, in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte);
 	bmpOperation.writeBmp(out_bmp, write_bmp);
 	cout << "迭代阈值分割 完成" << endl;
@@ -72,6 +73,8 @@ void Exec005::thresholdByOtsu(const char *read_bmp, const char *write_bmp, const
 	in_bmp = bmpOperation.readBmp(read_bmp);
 	T = thres.OtsuT(in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte);
 	cout << "Otsu算法得出的阈值为：" << T << endl;
+
+	in_bmp = bmpOperation.readBmp(read_bmp);
 	out_bmp.pBmpBuf = thres.givenT(T, in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte);
 	bmpOperation.writeBmp(out_bmp, write_bmp);
 	cout << "Otsu阈值分割 完成" << endl;

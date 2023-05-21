@@ -29,8 +29,8 @@ public:
                       {1,0},
                       {1,1} };
 	int x;
-	POINT origin;//???????? ???
-	std::vector<POINT> pt;//????????
+	POINT origin;
+	std::vector<POINT> pt;
 
 	unsigned char * growwWithSeed(POINT ptGrowing, unsigned char * bmp, int width, int height, int linebyte, int speed);
 	unsigned char * growWithoutSeed(unsigned char * bmp, int width, int height, int linebyte);
