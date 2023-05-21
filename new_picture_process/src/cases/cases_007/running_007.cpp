@@ -23,15 +23,25 @@ Bmp Exec007::init_colortable(Bmp bmp)
 }
 
 //Hough变换 需事先知道直线数量
-void Exec007::Hough(const char *read_bmp, const char *write_bmp, int number)
+void Exec007::HoughI(const char *read_bmp, const char *write_bmp, int number)
 {
 	in_bmp = bmpOperation.readBmp(read_bmp);
 	out_bmp = in_bmp;
-	out_bmp.pBmpBuf = hough.lineDetection(in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte, number);
+	out_bmp.pBmpBuf = hough.lineDetectionI(in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte, number);
+	bmpOperation.writeBmp(out_bmp, write_bmp);
+	cout << "Hough变换 完成" << endl;
+}
+
+void Exec007::HoughII(const char *read_bmp, const char *write_bmp, int number)
+{
+	in_bmp = bmpOperation.readBmp(read_bmp);
+	out_bmp = in_bmp;
+	out_bmp.pBmpBuf = hough.lineDetectionII(in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte, number);
 	bmpOperation.writeBmp(out_bmp, write_bmp);
 	cout << "Hough变换 完成" << endl;
 }
 
 void Exec007::run() {
-    Hough(read_bmp_3, write_bmp_hough, 5);
+    HoughI(read_bmp_7_1, write_bmp_hough_1, 5);
+	HoughII(read_bmp_7_2, write_bmp_hough_2, 5);
 }

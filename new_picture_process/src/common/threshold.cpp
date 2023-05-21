@@ -2,6 +2,7 @@
 
 unsigned char * threshold::givenT(int T, unsigned char * bmp, int width, int height, int linebyte)
 {
+	std::cout << "height:" << height << "; " << "width:" << width << std::endl;
 	for (i = 0; i < height; i++)
 	{
 		for (j = 0; j < width; j++)

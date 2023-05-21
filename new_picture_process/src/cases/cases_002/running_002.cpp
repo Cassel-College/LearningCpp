@@ -30,7 +30,10 @@ void Exec002::paintHistogram(const char *read_bmp, const char *write_bmp_histogr
 {
 	in_bmp = bmpOperation.readBmp(read_bmp);
 	out_bmp = in_bmp;
-	out_bmp.pBmpBuf = histogram.saveHistogram512(in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte);
+	out_bmp.pBmpBuf = histogram.saveHistogram512(in_bmp.pBmpBuf,
+												  in_bmp.width,
+												  in_bmp.height,
+												  in_bmp.lineByte);
 	out_bmp = init_colortable(out_bmp);
 	out_bmp.height = 512;
 	out_bmp.width = 512;
@@ -39,18 +42,26 @@ void Exec002::paintHistogram(const char *read_bmp, const char *write_bmp_histogr
 }
 
 //直方图均衡化
-void Exec002::equalize(const char *read_bmp, const char *write_bmp_equalize, const char *write_bmp_histoequalize)
+void Exec002::equalize(const char *read_bmp,
+					   const char *write_bmp_equalize,
+					   const char *write_bmp_histoequalize)
 {
 	in_bmp = bmpOperation.readBmp(read_bmp);
 	out_bmp = in_bmp;
-	out_bmp.pBmpBuf = histogram.equalization(in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte);
+	out_bmp.pBmpBuf = histogram.equalization(in_bmp.pBmpBuf,
+											 in_bmp.width,
+											 in_bmp.height,
+											 in_bmp.lineByte);
 	out_bmp = init_colortable(out_bmp);
 	bmpOperation.writeBmp(out_bmp, write_bmp_equalize);
 	cout << "均衡化成功！" << endl;
 
 	in_bmp = bmpOperation.readBmp(write_bmp_equalize);
 	out_bmp = in_bmp;
-	out_bmp.pBmpBuf = histogram.saveHistogram512(in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte);
+	out_bmp.pBmpBuf = histogram.saveHistogram512(in_bmp.pBmpBuf,
+												 in_bmp.width,
+												 in_bmp.height,
+												 in_bmp.lineByte);
 	out_bmp = init_colortable(out_bmp);
 	out_bmp.height = 512;
 	out_bmp.width = 512;

@@ -42,6 +42,8 @@ public:
 
     void regionGrowingWithoutSeed(const char *read_bmp, const char *write_bmp);
 
+    void Add(const char *read_bmp, const char *read_bmp1, const char *read_bmp2, const char *write_bm);
+
     void regionGrowingWithSeed(const char *read_bmp, const char *write_bmp, POINT seed, int speed);
 
     void run();
@@ -70,6 +72,8 @@ private:
     const char * read_bmp_32        = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/source/image3_median.bmp";
     const char * read_bmp_test4     = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/source/test4.bmp";
     const char * read_bmp_test4_p   = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/source/test4_perspective_transform.bmp";
+    const char * read_bmp_6_1       = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/source/test6-1.bmp";
+    const char * read_bmp_6_2       = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/source/test6-2.bmp";
 
     const char * write_bmp_red                  = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target01/imageR.bmp";
     const char * write_bmp_gray                 = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target01/imageGery.bmp";
@@ -103,6 +107,8 @@ private:
     const char * new_write_bmp_histogram_givenT = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target06/new_imagehistogram_givenT.bmp";
     const char * new_write_bmp_histogram_iter   = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target06/new_imagehistogram_Iteration.bmp";
     const char * new_write_bmp_histogram_otsu   = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target06/new_imagehistogram_Otsu.bmp";
+    const char * write_bmp_gs1                  = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target06/imageRegionGrowingWS1.bmp";
+    const char * write_bmp_gs2                  = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target06/imageRegionGrowingWS2.bmp";
     const char * write_bmp_gs                   = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target06/imageRegionGrowingWS.bmp";
     const char * write_bmp_gws                  = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target06/imageRegionGrowingWOS.bmp";
     const char * write_bmp_prewitt              = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target06/imagePrewitt.bmp";

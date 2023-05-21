@@ -27,6 +27,8 @@ public:
 	unsigned char * get_bgr_of_g(unsigned char * bmp, int height, int width, int linebyte, int lineByte2);
 	unsigned char * get_bgr_of_r(unsigned char * bmp, int height, int width, int linebyte, int lineByte2);
 
+	unsigned char * split_car_number(unsigned char * bmp, int height, int width, int linebyte, int index);
+
 	unsigned char * init_gray(unsigned char * bmp, int height, int width, int linebyte, int lineByte2);
 
 	unsigned char * init_gray_24_to_24(unsigned char * bmp, int height, int width, int linebyte, int lineByte2);

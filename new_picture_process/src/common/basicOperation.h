@@ -28,6 +28,8 @@ public:
     unsigned char * bmpMirroring(unsigned char * bmp, int width, int height, int linebyte, int flag);
 
     unsigned char * bmpPerspect(unsigned char * bmp, int width, int height, int linebyte);
+    
+    unsigned char * bmpPerspect_10(unsigned char * bmp, int width, int height, int linebyte);
 
     unsigned char * bmpCreate(unsigned char * bmp, int width, int height, int linebyte, std::vector<int> &infos);
 };

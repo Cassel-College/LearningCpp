@@ -40,7 +40,8 @@ public:
 
     Bmp init_colortable(Bmp bmp);
 
-    void Hough(const char *read_bmp, const char *write_bmp, int number);
+    void HoughI(const char *read_bmp, const char *write_bmp, int number);
+    void HoughII(const char *read_bmp, const char *write_bmp, int number);
 
     void run();
 
@@ -68,6 +69,14 @@ private:
     const char * read_bmp_32        = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/source/image3_median.bmp";
     const char * read_bmp_test4     = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/source/test4.bmp";
     const char * read_bmp_test4_p   = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/source/test4_perspective_transform.bmp";
+    const char * read_bmp_6_1       = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/source/test6-1.bmp";
+    const char * read_bmp_6_2       = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/source/test6-2.bmp";
+    const char * read_bmp_7_1       = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/source/test7-1.bmp";
+    const char * read_bmp_7_2       = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/source/test7-2.bmp";
+    const char * read_bmp_8_1       = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/source/test8-1.bmp";
+    const char * read_bmp_8_2       = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/source/test8-2.bmp";
+    const char * read_bmp_9_1       = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/source/test9-1.bmp";
+    const char * read_bmp_9_2       = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/source/test9-2.bmp";
 
     const char * write_bmp_red                  = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target07/imageR.bmp";
     const char * write_bmp_gray                 = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target07/imageGery.bmp";
@@ -105,7 +114,8 @@ private:
     const char * write_bmp_prewitt              = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target07/imagePrewitt.bmp";
     const char * write_bmp_sobel                = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target07/imageSobel.bmp";
     const char * write_bmp_LOG                  = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target07/imageLOG.bmp";
-    const char * write_bmp_hough                = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target07/imageLineDetection.bmp";
+    const char * write_bmp_hough_1              = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target07/imageLineDetection_1.bmp";
+    const char * write_bmp_hough_2              = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target07/imageLineDetection_2.bmp";
     const char * write_bmp_regionMark           = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target07/imageRegionMark.bmp";
     const char * write_bmp_outline              = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target07/imageOutlineExtraction.bmp";
 };

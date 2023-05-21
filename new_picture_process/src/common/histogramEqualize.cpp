@@ -75,7 +75,10 @@ unsigned char * HistogramEqualize::saveHistogram(unsigned char * bmp, int width,
 }
 
 //存入直方图像素点
-unsigned char * HistogramEqualize::saveHistogram512(unsigned char * bmp, int width, int height, int linebyte)
+unsigned char * HistogramEqualize::saveHistogram512(unsigned char * bmp,
+													int width,
+													int height,
+													int linebyte)
 {
 	int i, j;
 	unsigned char * pBmpBuf = new unsigned char[512 * 512];
@@ -90,13 +93,8 @@ unsigned char * HistogramEqualize::saveHistogram512(unsigned char * bmp, int wid
 	int uu = 0;
 	for (i = 0; i < 512; i = i + 2) {
 		uu = uu + grayPoint[i / 2];
-		std::cout << "灰度值：" << i/2 << ", 数量：" << grayPoint[i / 2] << std::endl;
-		std::cout << "像素总数：" << (width * height) << std::endl;
 		// 2.7%
 		double p = ((double)grayPoint[i / 2] / (double)(width * height)) * 100;
-		std::cout << "A:" << p << std::endl;
-		std::cout << "概率：" << double((double)grayPoint[i / 2] / (double)(width * height)) * 100 << "%" << std::endl;
-		// std::cout << "灰度值：" << grayPoint[i / 2] << std::endl;
 		for (j = 0; j < 512; j++) {
 			// 60 等比例拉长图片
 			if (j <= p * 60) {
@@ -106,17 +104,58 @@ unsigned char * HistogramEqualize::saveHistogram512(unsigned char * bmp, int wid
 				pBmpBuf[j*lineByte + i] = 255;
 				pBmpBuf[j*lineByte + i + 1] = 255;
 			}
-			
-
 		}
 	}
 	std::cout << "uu像素总数：" << uu << std::endl;
-
 	return pBmpBuf;
 }
 
+
+// //存入直方图像素点
+// unsigned char * HistogramEqualize::saveHistogram512(unsigned char * bmp, int width, int height, int linebyte)
+// {
+// 	int i, j;
+// 	unsigned char * pBmpBuf = new unsigned char[512 * 512];
+// 	int lineByte = (512 * 8 / 8 + 3) / 4 * 4;
+// 	histogram(bmp, width, height, linebyte);
+// 	//初始化
+// 	for (i = 0; i < 512; i++) {
+// 		for (j = 0; j < 512; j++) {
+// 			pBmpBuf[j*lineByte + i] = 0;
+// 		}
+// 	}
+// 	int uu = 0;
+// 	for (i = 0; i < 512; i = i + 2) {
+// 		uu = uu + grayPoint[i / 2];
+// 		std::cout << "灰度值：" << i/2 << ", 数量：" << grayPoint[i / 2] << std::endl;
+// 		std::cout << "像素总数：" << (width * height) << std::endl;
+// 		// 2.7%
+// 		double p = ((double)grayPoint[i / 2] / (double)(width * height)) * 100;
+// 		std::cout << "A:" << p << std::endl;
+// 		std::cout << "概率：" << double((double)grayPoint[i / 2] / (double)(width * height)) * 100 << "%" << std::endl;
+// 		// std::cout << "灰度值：" << grayPoint[i / 2] << std::endl;
+// 		for (j = 0; j < 512; j++) {
+// 			// 60 等比例拉长图片
+// 			if (j <= p * 60) {
+// 				pBmpBuf[j*lineByte + i] = 0;
+// 				pBmpBuf[j*lineByte + i + 1] = 0;
+// 			} else {
+// 				pBmpBuf[j*lineByte + i] = 255;
+// 				pBmpBuf[j*lineByte + i + 1] = 255;
+// 			}
+			
+
+// 		}
+// 	}
+// 	std::cout << "uu像素总数：" << uu << std::endl;
+// 	return pBmpBuf;
+// }
+
 //均衡化
-unsigned char * HistogramEqualize::equalization(unsigned char * bmp, int width, int height, int linebyte)
+unsigned char * HistogramEqualize::equalization(unsigned char * bmp,
+												int width,
+												int height,
+												int linebyte)
 {
 	int i, j, k;
 	chance_gery(bmp, width, height, linebyte);

@@ -75,7 +75,16 @@ private:
     const char * read_bmp_32        = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/source/image3_median.bmp";
     const char * read_bmp_test4     = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/source/test4.bmp";
     const char * read_bmp_test4_p   = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/source/test4_perspective_transform.bmp";
-    const char * write_bmp_gray                 = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target01/imageGery.bmp";
+    const char * write_bmp_gray     = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target01/imageGery.bmp";
+    const char * read_bmp_6_1       = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/source/test6-1.bmp";
+    const char * read_bmp_6_2       = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/source/test6-2.bmp";
+    const char * read_bmp_7_1       = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/source/test7-1.bmp";
+    const char * read_bmp_7_2       = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/source/test7-2.bmp";
+    const char * read_bmp_8_1       = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/source/test8-1.bmp";
+    const char * read_bmp_8_2       = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/source/test8-2.bmp";
+    const char * read_bmp_9_1       = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/source/test9-1.bmp";
+    const char * read_bmp_9_2       = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/source/test9-2.bmp";
+    const char * read_bmp_10        = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/source/test10.bmp";
 
     const char * write_bmp_red                  = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target09/imageR.bmp";
     const char * write_bmp_gray_red             = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target09/imageGeryRed.bmp";
@@ -112,7 +121,16 @@ private:
     const char * write_bmp_prewitt              = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target09/imagePrewitt.bmp";
     const char * write_bmp_sobel                = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target09/imageSobel.bmp";
     const char * write_bmp_LOG                  = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target09/imageLOG.bmp";
+
+    const char * write_bmp_prewitt_cp           = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target09/imagePrewitt_cp.bmp";
+    const char * write_bmp_sobel_cp             = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target09/imageSobel_cp.bmp";
+    const char * write_bmp_LOG_cp               = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target09/imageLOG_cp.bmp";
+
     const char * write_bmp_hough                = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target09/imageLineDetection.bmp";
     const char * write_bmp_regionMark           = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target09/imageRegionMark.bmp";
     const char * write_bmp_outline              = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target09/imageOutlineExtraction.bmp";
+
+    const char * write_car_1                    = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target10/image1.bmp";
+    const char * write_car_2                    = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target10/image2.bmp";
+    const char * write_car_3                    = "/Users/pengliu/Code/LearningCpp/new_picture_process/images/target10/image3.bmp";
 };

@@ -215,17 +215,36 @@ unsigned char * SplitBmp::get_bgr_of_b(unsigned char * bmp, int height, int widt
 			pBmpBuf_b[i * linebyte + j] = bmp[i*lineByte2 + j * 3 + 0];
 			pBmpBuf_g[i * linebyte + j] = bmp[i*lineByte2 + j * 3 + 1];
 			pBmpBuf_r[i * linebyte + j] = bmp[i*lineByte2 + j * 3 + 2];
-			// pBmpBuf_b[i * linebyte + j] = 0.1140 * blue;
-			// pBmpBuf_g[i * linebyte + j] = 0.5870 * green;
-			// pBmpBuf_r[i * linebyte + j] = 0.2989 * red;
-			// pBmpBuf_b[i * linebyte + j] = 0.1140 * blue + 0.5870 * green + 0.2989 * red;
-			// pBmpBuf_g[i * linebyte + j] = 0.1140 * blue + 0.5870 * green + 0.2989 * red;
-			// pBmpBuf_r[i * linebyte + j] = 0.1140 * blue + 0.5870 * green + 0.2989 * red;
 		}
 	}
+	// int w = 522;
+	// int h = 442;
+	// int p1[2] = {314, 260};
+	// int p2[2] = {285, 360};
+	// int p3[2] = {286, 250};
+	// int p4[2] = {258, 354};
+
+	// for (i = h - p1[0]; i < h - p1[0] + 10; i++) {
+	// 	for (j = p1[1]; j < p1[1] + 30; j++) {
+	// 		pBmpBuf_b[i * linebyte + j] = 0;
+	// 	}
+	// }
+	// for (i = h - p2[0]; i < h - p2[0] + 10; i++) {
+	// 	for (j = p2[1]; j < p2[1] + 30; j++) {
+	// 		pBmpBuf_b[i * linebyte + j] = 0;
+	// 	}
+	// }
+	// for (i = h - p3[0]; i < h - p3[0] + 10; i++) {
+	// 	for (j = p3[1]; j < p3[1] + 30; j++) {
+	// 		pBmpBuf_b[i * linebyte + j] = 0;
+	// 	}
+	// }
+	// for (i = h - p4[0]; i < h - p4[0] + 10; i++) {
+	// 	for (j = p4[1]; j < p4[1] + 30; j++) {
+	// 		pBmpBuf_b[i * linebyte + j] = 0;
+	// 	}
+	// }
 	return pBmpBuf_b;
-	// return pBmpBuf_g;
-	// return pBmpBuf_r;
 }
 
 unsigned char * SplitBmp::get_bgr_of_g(unsigned char * bmp, int height, int width, int linebyte, int lineByte2) {
@@ -242,17 +261,9 @@ unsigned char * SplitBmp::get_bgr_of_g(unsigned char * bmp, int height, int widt
 			pBmpBuf_b[i * linebyte + j] = bmp[i*lineByte2 + j * 3 + 0];
 			pBmpBuf_g[i * linebyte + j] = bmp[i*lineByte2 + j * 3 + 1];
 			pBmpBuf_r[i * linebyte + j] = bmp[i*lineByte2 + j * 3 + 2];
-			// pBmpBuf_b[i * linebyte + j] = 0.1140 * blue;
-			// pBmpBuf_g[i * linebyte + j] = 0.5870 * green;
-			// pBmpBuf_r[i * linebyte + j] = 0.2989 * red;
-			// pBmpBuf_b[i * linebyte + j] = 0.1140 * blue + 0.5870 * green + 0.2989 * red;
-			// pBmpBuf_g[i * linebyte + j] = 0.1140 * blue + 0.5870 * green + 0.2989 * red;
-			// pBmpBuf_r[i * linebyte + j] = 0.1140 * blue + 0.5870 * green + 0.2989 * red;
 		}
 	}
-	// return pBmpBuf_b;
 	return pBmpBuf_g;
-	// return pBmpBuf_r;
 }
 
 unsigned char * SplitBmp::get_bgr_of_r(unsigned char * bmp, int height, int width, int linebyte, int lineByte2) {
@@ -269,19 +280,8 @@ unsigned char * SplitBmp::get_bgr_of_r(unsigned char * bmp, int height, int widt
 			pBmpBuf_b[i * linebyte + j] = bmp[i*lineByte2 + j * 3 + 0];
 			pBmpBuf_g[i * linebyte + j] = bmp[i*lineByte2 + j * 3 + 1];
 			pBmpBuf_r[i * linebyte + j] = bmp[i*lineByte2 + j * 3 + 2];
-			// pBmpBuf_b[i * linebyte + j] = 0.1140 * blue;
-			// pBmpBuf_g[i * linebyte + j] = 0.5870 * green;
-			// pBmpBuf_r[i * linebyte + j] = 0.2989 * red;
-			// pBmpBuf_b[i * linebyte + j] = 0.1140 * blue + 0.5870 * green + 0.2989 * red;
-			// pBmpBuf_g[i * linebyte + j] = 0.1140 * blue + 0.5870 * green + 0.2989 * red;
-			// pBmpBuf_r[i * linebyte + j] = 0.1140 * blue + 0.5870 * green + 0.2989 * red;
 		}
-		// Begin 补齐
-		
-		// 补齐 Over
 	}
-	// return pBmpBuf_b;
-	// return pBmpBuf_g;
 	return pBmpBuf_r;
 }
 
@@ -300,6 +300,49 @@ unsigned char * SplitBmp::init_gray(unsigned char * bmp, int height, int width, 
 			int red = bmp[i*lineByte2 + j * 3 + 2];
 			// RGB彩色图像变换为灰度图理论中的参数
 			pBmpBuf[i*linebyte + j] = 0.1140 * blue + 0.5870 * green + 0.2989 * red;
+		}
+	}
+	return pBmpBuf;
+}
+
+
+unsigned char * SplitBmp::split_car_number(unsigned char * bmp, int height, int width, int linebyte, int index)
+{
+	// 灰度图只有亮度信息，无颜色信息，可用Y表示
+	// lineByte2： 原图像宽度
+	// 初始化输出的灰度图
+	unsigned char * pBmpBuf = new unsigned char[height*linebyte]{ 0 };
+	int w_set[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+	int index_ = 1;
+	int open_key = true;
+	for (j = 0; j < width; j++) {	
+		bool is_cut = true;
+		for (i = 0; i < height; i++) {
+			if (bmp[i * linebyte + j] != 0) {
+				is_cut = false;
+				open_key = false;
+				break;
+			}
+		}
+		if (is_cut) {
+			if (open_key == false) {
+				open_key = true;
+				w_set[index_] = j;
+				index_++;
+			}
+		}
+		if (index_ >= 10) {
+			break;
+		}
+	}
+
+	for (int i = 0; i < index_; i++) {
+		std::cout << w_set[i] << std::endl;
+	}
+
+	for (j = w_set[index]; j < w_set[index + 1]; j++) {	
+		for (i = 0; i < height; i++) {
+			pBmpBuf[i * linebyte + j] = bmp[i * linebyte + j];
 		}
 	}
 	return pBmpBuf;

@@ -14,5 +14,6 @@ public:
 
 	unsigned char * Prewitt(unsigned char * bmp, int width, int height, int linebyte);
 	unsigned char * Sobel(unsigned char * bmp, int width, int height, int linebyte);
+	void RAdd(unsigned char * in_bmp, int width, int height, int linebyte);
 	unsigned char * LOG(unsigned char * bmp, int width, int height, int linebyte);
 };
