@@ -3,7 +3,6 @@
 Bmp BmpOperation::readBmp(const char * bmpName) //文件名及路径
 {
 	FILE *fp = fopen(bmpName, "rb"); //二进制读方式打开指定的图象文件
-	//if (fp == 0) return ;
 	Bmp bmp;
 	BITMAPFILEHEADER bitmapfileheader; //读取位图文件头结构BITMBPFILEHEBDER
 	fread(&bitmapfileheader, sizeof(BITMAPFILEHEADER), 1, fp); 

@@ -3,17 +3,12 @@
 unsigned char * threshold::givenT(int T, unsigned char * bmp, int width, int height, int linebyte)
 {
 	std::cout << "height:" << height << "; " << "width:" << width << std::endl;
-	for (i = 0; i < height; i++)
-	{
-		for (j = 0; j < width; j++)
-		{
+	for (i = 0; i < height; i++) {
+		for (j = 0; j < width; j++) {
 			int x = bmp[i*linebyte + j];
-			if (x > T)
-			{
+			if (x > T) {
 				bmp[i*linebyte + j] = 255;
-			}
-			else
-			{
+			} else {
 				bmp[i*linebyte + j] = 0;
 			}
 		}
@@ -25,8 +20,7 @@ int threshold::iterationT(unsigned char * bmp, int width, int height, int lineby
 {
 	int T0;
 	int	T1, T2, T = 128;
-	do
-	{
+	do {
 		T0 = T;
 		T1 = iterateThreshold(bmp, width, height, linebyte, T, 1);
 		T2 = iterateThreshold(bmp, width, height, linebyte, T, 0);
@@ -41,21 +35,15 @@ int threshold::OtsuT(unsigned char * bmp, int width, int height, int linebyte)
 	int c1, c2;
 	float w, w0, a1, a2, u1, u2;
 	w0 = 0;
-	for ( k = 0; k < 256; k++)
-	{
+	for ( k = 0; k < 256; k++) {
 		c1 = 0, c2 = 0, a1 = 0, a2 = 0, u1 = 0, u2 = 0;
-		for (i = 0; i < height; i++)
-		{
-			for (j = 0; j < width; j++)
-			{
+		for (i = 0; i < height; i++) {
+			for (j = 0; j < width; j++) {
 				int x = bmp[i*linebyte + j];
-				if (x > k)
-				{
+				if (x > k) {
 					c1++;
 					u1 += (int)x;
-				}
-				else
-				{
+				} else {
 					c2++;
 					u2 += x;
 				}
@@ -66,8 +54,7 @@ int threshold::OtsuT(unsigned char * bmp, int width, int height, int linebyte)
 		u1 = u1 / a1;
 		u2 = u2 / a2;
 		w = a1 * a2*(u1 - u2)*(u1 - u2);
-		if (w > w0)
-		{
+		if (w > w0) {
 			T = k;
 			w0 = w;
 		}

@@ -95,10 +95,8 @@ typedef struct tagBITMAPINFOHEADER {
     DWORD  biSizeImage;      /* Image size, in bytes (0 if no compression) */
     LONG   biXPelsPerMeter;  /* Resolution in pixels/meter of display device */
     LONG   biYPelsPerMeter;  /* Resolution in pixels/meter of display device */
-    DWORD  biClrUsed;        /* Number of colors in the color table (if 0, use
-                                maximum allowed by biBitCount) */
-    DWORD  biClrImportant;   /* Number of important colors.  If 0, all colors
-                                are important */
+    DWORD  biClrUsed;        /* Number of colors in the color table (if 0, usemaximum allowed by biBitCount) */
+    DWORD  biClrImportant;   /* Number of important colors.  If 0, all colorsare important */
 }__attribute__((packed)) BITMAPINFOHEADER, BMIH;
 
 

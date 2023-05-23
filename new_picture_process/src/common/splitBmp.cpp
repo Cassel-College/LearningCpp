@@ -205,7 +205,6 @@ unsigned char * SplitBmp::get_bgr_of_b(unsigned char * bmp, int height, int widt
 	unsigned char * pBmpBuf_b = new unsigned char[height*linebyte]{ 255 };
 	unsigned char * pBmpBuf_g = new unsigned char[height*linebyte]{ 0 };
 	unsigned char * pBmpBuf_r = new unsigned char[height*linebyte]{ 0 };
-
 	unsigned char * pBmpBuf = new unsigned char[height*linebyte]{ 0 };
 	for (i = 0; i < height; i++) {
 		for (j = 0; j < width; j++) {
@@ -217,33 +216,6 @@ unsigned char * SplitBmp::get_bgr_of_b(unsigned char * bmp, int height, int widt
 			pBmpBuf_r[i * linebyte + j] = bmp[i*lineByte2 + j * 3 + 2];
 		}
 	}
-	// int w = 522;
-	// int h = 442;
-	// int p1[2] = {314, 260};
-	// int p2[2] = {285, 360};
-	// int p3[2] = {286, 250};
-	// int p4[2] = {258, 354};
-
-	// for (i = h - p1[0]; i < h - p1[0] + 10; i++) {
-	// 	for (j = p1[1]; j < p1[1] + 30; j++) {
-	// 		pBmpBuf_b[i * linebyte + j] = 0;
-	// 	}
-	// }
-	// for (i = h - p2[0]; i < h - p2[0] + 10; i++) {
-	// 	for (j = p2[1]; j < p2[1] + 30; j++) {
-	// 		pBmpBuf_b[i * linebyte + j] = 0;
-	// 	}
-	// }
-	// for (i = h - p3[0]; i < h - p3[0] + 10; i++) {
-	// 	for (j = p3[1]; j < p3[1] + 30; j++) {
-	// 		pBmpBuf_b[i * linebyte + j] = 0;
-	// 	}
-	// }
-	// for (i = h - p4[0]; i < h - p4[0] + 10; i++) {
-	// 	for (j = p4[1]; j < p4[1] + 30; j++) {
-	// 		pBmpBuf_b[i * linebyte + j] = 0;
-	// 	}
-	// }
 	return pBmpBuf_b;
 }
 
@@ -251,7 +223,6 @@ unsigned char * SplitBmp::get_bgr_of_g(unsigned char * bmp, int height, int widt
 	unsigned char * pBmpBuf_b = new unsigned char[height*linebyte]{ 0 };
 	unsigned char * pBmpBuf_g = new unsigned char[height*linebyte]{ 0 };
 	unsigned char * pBmpBuf_r = new unsigned char[height*linebyte]{ 0 };
-
 	unsigned char * pBmpBuf = new unsigned char[height*linebyte]{ 0 };
 	for (i = 0; i < height; i++) {
 		for (j = 0; j < width; j++) {
@@ -270,7 +241,6 @@ unsigned char * SplitBmp::get_bgr_of_r(unsigned char * bmp, int height, int widt
 	unsigned char * pBmpBuf_b = new unsigned char[height*linebyte]{ 0 };
 	unsigned char * pBmpBuf_g = new unsigned char[height*linebyte]{ 0 };
 	unsigned char * pBmpBuf_r = new unsigned char[height*linebyte]{ 0 };
-
 	unsigned char * pBmpBuf = new unsigned char[height*linebyte]{ 0 };
 	for (i = 0; i < height; i++) {
 		for (j = 0; j < width; j++) {

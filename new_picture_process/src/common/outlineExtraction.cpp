@@ -6,20 +6,16 @@ unsigned char * outlineExtraction::regionMark(unsigned char * bmp, int width, in
 	int label = 1;
 	int *values = new int[height*width]{ 0 };
 	std::vector<POINT> s;
-	for ( i = 1; i < height - 1; i++)
-	{
-		for ( j = 1; j < width - 1; j++)
-		{
-			if (bmp[i*linebyte + j] == 255 && values[i*linebyte + j] == 0)
-			{
+	for ( i = 1; i < height - 1; i++) {
+		for ( j = 1; j < width - 1; j++) {
+			if (bmp[i*linebyte + j] == 255 && values[i*linebyte + j] == 0) {
 				values[i*linebyte + j] = label;
 				label++;
 				POINT p;
 				p.x = j;
 				p.y = i;
 				s.push_back(p);
-				while (!s.empty())
-				{
+				while (!s.empty()) {
 					POINT currPt = s.back();
 					s.pop_back();
 					origin.x = currPt.x;
@@ -42,21 +38,15 @@ unsigned char * outlineExtraction::regionMark(unsigned char * bmp, int width, in
 	}
 
 	std::set<int> re;
-	for (j = 0; j < height*linebyte; j++)
-	{
+	for (j = 0; j < height*linebyte; j++) {
 		re.insert(values[j]);
 	}
-	for ( i = 0; i < height*linebyte; i++)
-	{
-		if (values[i] == 0)
-		{
+	for ( i = 0; i < height*linebyte; i++) {
+		if (values[i] == 0) {
 			p[i] = bmp[i];
-		}
-		else
-		{
+		} else {
 			p[i] = values[i] * 20;
 		}
-
 	}
 	// RAdd(p, width, height, linebyte);
 	return p;
@@ -87,14 +77,11 @@ unsigned char * outlineExtraction::extractOutline(unsigned char * bmp, int width
 	unsigned char * pBmpBuf = new unsigned char[height*linebyte]{ 255 };
 	int x, y, count[2]{ 0 };
 	int target = 0;
-	for ( i = 0; i < height; i++)
-	{
-		for ( j = 0; j < width; j++)
-		{
+	for ( i = 0; i < height; i++) {
+		for ( j = 0; j < width; j++) {
 			count[0] = 0;
 			count[1] = 0;
-			for (int k = 0; k < 8; k++)
-			{
+			for (int k = 0; k < 8; k++) {
 				x = dir[k][0];
 				y = dir[k][1];
 				if (bmp[(i + x)*linebyte + j + y] == 0)
@@ -102,12 +89,9 @@ unsigned char * outlineExtraction::extractOutline(unsigned char * bmp, int width
 				if (bmp[(i + x)*linebyte + j + y] == 255)
 					count[1]++;
 			}
-			if (count[0] == 8 || count[1] == 8)
-			{
+			if (count[0] == 8 || count[1] == 8) {
 				pBmpBuf[i*linebyte + j] = 255;
-			}
-			else
-			{
+			} else {
 				pBmpBuf[i*linebyte + j] = target;
 			}
 		}
