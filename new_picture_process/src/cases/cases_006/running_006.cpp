@@ -28,7 +28,6 @@ void Exec006::regionGrowingWithSeed(const char *read_bmp, const char *write_bmp,
 	in_bmp = bmpOperation.readBmp(read_bmp);
 	out_bmp = in_bmp;
 	std::cout << "height:" << in_bmp.height << "; " << "width:" << in_bmp.width << std::endl;
-
 	out_bmp.pBmpBuf = region.growwWithSeed(seed, in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte, speed);
 	bmpOperation.writeBmp(out_bmp, write_bmp);
 	cout << "区域生长 完成" << endl;

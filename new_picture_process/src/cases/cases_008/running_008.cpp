@@ -30,7 +30,6 @@ void Exec008::regionMark(const char *read_bmp, const char *write_bmp)
 	out_bmp = in_bmp;
 	out_bmp.pBmpBuf = outline.regionMark(in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte);
 	bmpOperation.writeBmp(out_bmp, write_bmp);
-	cout << "区域标记 完成" << endl;
 }
 
 //轮廓提取
@@ -40,15 +39,9 @@ void Exec008::extractOutline(const char *read_bmp, const char *write_bmp)
 	out_bmp = in_bmp;
 	out_bmp.pBmpBuf = outline.extractOutline(in_bmp.pBmpBuf, in_bmp.width, in_bmp.height, in_bmp.lineByte);
 	bmpOperation.writeBmp(out_bmp, write_bmp);
-	cout << "轮廓提取 完成" << endl;
 }
 
 void Exec008::run() {
-    //  基于边界跟踪提取轮廓，内部使用栈。
-    // extractOutline(read_bmp_9_1, write_bmp_outline1);
-    // // 基于边界点的定义提取轮廓
-    // regionMark(read_bmp_9_2, write_bmp_regionMark1);
-
     //  基于边界跟踪提取轮廓，内部使用栈。
     extractOutline(read_bmp_8_1, write_bmp_outline1);
     extractOutline(read_bmp_8_2, write_bmp_outline2);

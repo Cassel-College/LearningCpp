@@ -26,10 +26,8 @@ unsigned char * basicOperation::bmpScale(unsigned char * bmp, int width, int hei
     int matrixX, matrixY;
     int k[3];
 
-    for (i = 0; i < newWidth; i++)
-    {
-        for (j = 0; j < newHeight; j++)
-        {
+    for (i = 0; i < newWidth; i++) {
+        for (j = 0; j < newHeight; j++) {
             int x = i / times1;
             int y = j / times2;
             pBmpBuf[j * linebyteT + i] = bmp[y*linebyte + x];
@@ -76,7 +74,6 @@ unsigned char * basicOperation::bmpRotate(unsigned char * bmp, int width, int he
     pBmpBuf = new unsigned char[height*linebyte]{ 0 };
     angle = angle * 3.1415926 / 180;
     int matrixX, matrixY;
-    std::cout << "---" << std::endl;
     double matrix[3][3] = {{cos(angle),  sin(angle), 0},
                            {-sin(angle), cos(angle), 0},
                            {0,           0,          1}};
@@ -102,20 +99,16 @@ unsigned char * basicOperation::bmpRotate(unsigned char * bmp, int width, int he
             }
         }
     }
-    // std::cout << "---" << std::endl;
     // 将黑点 用 它左边的非黑点代替
     for (i = 0; i < width; i++) {
         for (j = 0; j < height; j++) {
-            // if (pBmpBuf[i*linebyte + j] == 0 && pBmpBuf[i*linebyte + j - 1] != 0 && pBmpBuf[i*linebyte + j + 1] != 0) {
-            //     if (i*linebyte + j - 1 != 0) {
-            //         // std::cout << "width:" << i << ", height:" << j << "sum:" << i*linebyte + j << std::endl;
-            //         pBmpBuf[i*linebyte + j] = pBmpBuf[i*linebyte + j - 1];
-            //     }
-            // }
-            // //std::cout << "width:" << i << ", height:" << j << "sum:" << i*linebyte + j << std::endl;
+            if (pBmpBuf[i*linebyte + j] == 0 && pBmpBuf[i*linebyte + j - 1] != 0 && pBmpBuf[i*linebyte + j + 1] != 0) {
+                if (i*linebyte + j - 1 != 0) {
+                    pBmpBuf[i*linebyte + j] = pBmpBuf[i*linebyte + j - 1];
+                }
+            }
         }
     }
-    // std::cout << "---" << std::endl;
     return pBmpBuf;
 }
 
@@ -199,7 +192,6 @@ unsigned char * basicOperation::bmpRotateII(unsigned char * bmp, int width, int 
     for (int j = w1; j < height * 2; j++) {
         bool is_picture = false;
         for (int i = 0; i < width * 2 - 1; i++) {
-            // std::cout << int(pBmpBuf[i * newlineByte + j]) << "-";
             if (pBmpBuf[i*newlineByte + j] != 0) {
                 is_picture = true;
                 break;
@@ -274,7 +266,6 @@ unsigned char * basicOperation::bmpPerspect(unsigned char * bmp, int width, int 
 	tansform.transformPoints(ponits);
 
     for(int i=0;i< height;i++) {
-		// uchar*  t= img_trans.ptr<uchar>(i);
 		for (int j = 0; j < width; j++){
 			int tmp = i * width + j;
 			int x = ponits[tmp * 2];
