@@ -62,7 +62,7 @@ public:
             }
             file.close();
         } else {
-            std::cerr << "Unable to open file" << std::endl;
+            std::cout << "Unable to open file" << std::endl;
         }
     }
 
@@ -134,8 +134,6 @@ public:
 
     std::vector<std::shared_ptr<Node>> getNowNodeNextNodes(std::shared_ptr<Node> nowNode) {
 
-        std::cout << "getNowNodeNextNodes: " << nowNode->x << " " << nowNode->y << std::endl;
-
         std::vector<std::shared_ptr<Node>> nextNodes = {};
         std::vector<int> x_bits = {-1, 0, 1, 0};
         std::vector<int> y_bits = {0, 1, 0, -1};
@@ -160,42 +158,31 @@ public:
                 nextNodes.push_back(new_node);
             }
         }
-        std::cout << "nextNodes size: " << nextNodes.size() << std::endl;
         return nextNodes;
     }
 
     void addOpenList(std::shared_ptr<Node> node) {
-
-        node->showNode();
-        std::cout << "Add new node(" << node->x << "," << node->y << ") to open list.";
+        // node->showNode();
         if (this->isInCloseList(node)) {
-            std::cout << "The node is in close list. xxxxxxxxxxxxx" << std::endl;
             return;
         }
         if (this->IsInBlackList(node)) {
-            std::cout << "The node is in black list. xxxxxxxxxxxxx" << std::endl;
             return;
         }
         int oldFCost = this->isInOpenList(node);
         if (-1 != oldFCost) {
             if (oldFCost > node->g_cost) {
-                std::cout << "---------- The node is in open list. all cost is " << oldFCost << "; new cost is " << node->g_cost << "." << std::endl;
                 this->deleteOldNodeByXY(node);
                 this->openList.push_back(node);
-            } else {
-                std::cout << "---------- This node in open list and new cost is less than old cost." << std::endl;
             }
         } else {
-            std::cout << "---------- This node not in open list." << std::endl;
             this->openList.push_back(node);
         }
-        std::cout << "Done." << "open list size:" << openList.size() << std::endl;
         return;
     }
 
     void addCloseList(std::shared_ptr<Node> node) {
         this->closeList.push_back(node);
-        std::cout << "close node size:" << this->closeList.size() << std::endl;
         this->deleteOldNodeByXY(node);
     }
 
@@ -213,7 +200,6 @@ public:
     bool deleteOldNodeByXY(std::shared_ptr<Node> node) {
         bool nodeState = false;
         int index = 0;
-        std::cout << "Delete node from open list: " << this->openList.size() ;
         for (auto tempNode : this->openList) {
             if (tempNode->x == node->x && tempNode->y == node->y) {
                 this->openList.erase(this->openList.begin() + index);
@@ -222,7 +208,6 @@ public:
             }
             index = index + 1;
         }
-        std::cout << " ---------------------- " << this->openList.size() << std::endl;
         return nodeState;
     }
 
@@ -246,24 +231,20 @@ public:
     }
 
     std::shared_ptr<Node> getNextNode() {
-        std::cout << "Get next node." << std::endl;
         std::shared_ptr<Node> next = nullptr;
         if (this->openList.size() == 0) {
             return nullptr;
         }
         int targetIndex = 0;
         double tempCost = this->openList[0]->f_cost;
-        std::cout << "open list size: " << this->openList.size() << "; Costs: ";
         for (int i = 0; i < this->openList.size(); i++) {
-            std::cout << this->openList[i]->f_cost << " ";
+
             if (this->openList[i]->f_cost <= tempCost) {
                 tempCost = this->openList[i]->f_cost;
                 targetIndex = i;
             }
         }
-        std::cout << std::endl;
         next = this->openList[targetIndex];
-        std::cout << "next node is x:" << next->x << " y:" << next->y << "f_cost" << next->f_cost << std::endl;
         return next;
     }
 
@@ -285,8 +266,7 @@ public:
         return state;
     }
 
-    void run() {
-        // create start point node
+    std::shared_ptr<Node> creareStartPoint() {
         std::shared_ptr<Node> start = std::make_shared<Node>();
         start->x = startX;
         start->y = startY;
@@ -295,16 +275,18 @@ public:
         start->g_cost = 0;
         start->h_cost = this->getDistance(start);
         start->f_cost = start->g_cost + start->h_cost;
+        return start;
+    }
 
-        std::cout << "构造起点 start: " << start->x << " " << start->y << std::endl;
-
+    void run() {
+        // create start point node
+        std::shared_ptr<Node> start = this->creareStartPoint();
         // add start node to open list
         this->addOpenList(start);
         bool isFind = false;
         int newNodeSize = 0;
         // while open list is not empty
         while (this->openList.size() > 0) {
-
             int n1 = this->openList.size();
             std::shared_ptr<Node> nowNode = this->getNextNode();
 
@@ -312,12 +294,10 @@ public:
                 nowX = nowNode->x;
                 nowY = nowNode->y;
                 if (isTarget(nowNode)) {
-                    std::cout << "find target" << std::endl;
                     isFind = true;
                     break;
                 } else {
                     this->addCloseList(nowNode);
-
                     std::vector<std::shared_ptr<Node>> nextNodes = getNowNodeNextNodes(nowNode);
                     for (auto nextNode : nextNodes) {
                         this->addOpenList(nextNode);
@@ -326,16 +306,6 @@ public:
                 }
             } else {
                 std::cout << "open list is empty." << std::endl;
-            }
-            
-            this->showPath();
-
-            std::cout << "Os:" << n1 << ", new nodes: " << newNodeSize << ", NOs:" << this->openList.size() << ", Cs:" << this->closeList.size() << std::endl;
-
-            int oo = 0;
-            std::cin >> oo;
-            if (oo == 1) {
-                continue;
             }
         }
     }
@@ -351,7 +321,7 @@ public:
 
 
     void getPath() {
-
+        return;
     }
 
     void showPath() {
@@ -401,13 +371,6 @@ public:
             }
             std::cout << std::endl;
         }
-        
-        std::cout << "-----------------------------------------" << std::endl;
-        std::cout << "Open lists:" << this->openList.size() << std::endl;
-        std::cout << "Close lists:" << this->closeList.size() << std::endl;
-        for (auto node : this->openList) {
-            std::cout << "Open list: (" << node->x << " " << node->y << ") cost:" << node->f_cost << std::endl;
-        }
     }
 
 
@@ -447,7 +410,7 @@ int main() {
     // set target
     if (astar->setTargetNode(taregtX, targetY, target)) {
         std::cout << "set target success" << std::endl;
-        astar->showMap();
+        // astar->showMap();
     } else {
         std::cout << "set target failed" << std::endl;
     }
@@ -460,6 +423,7 @@ int main() {
     }
     
     astar->run();
+    astar->showPath();
 
     return 0;
 }
